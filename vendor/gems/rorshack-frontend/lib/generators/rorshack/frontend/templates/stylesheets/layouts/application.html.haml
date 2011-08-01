@@ -1,0 +1,32 @@
+!!!
+%html{html_attrs}
+  %head
+    %title
+      = h(yield(:title) || action_name)
+    %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}
+    %meta{ :name => "description", :content=> h(yield(:description))}
+    %meta{ :name => "keywords",    :content=> to_keywords(h(yield(:title)))}
+    %meta{ :name => "robots",      :content=> "index, follow"}
+    = stylesheet default_stylesheets
+    = javascript :defaults
+    = yield(:head)
+  %body
+    #container
+      #header
+        %h1
+          =h "Title"
+        #login
+        %div.clear
+        #flashes
+          - flash.each do |name, msg|
+            = content_tag :div, msg, :id => "flash_#{name}"
+      #body
+        #main
+          = yield
+        #sidebar
+          = yield(:sidebar)
+    #footer
+      = yield(:footer)
+      %p.copyright
+        Copyright &copy;
+        = Time.now.year

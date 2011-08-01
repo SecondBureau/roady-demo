@@ -1,0 +1,9 @@
+#side_bar
+  %ul
+    %li= link_to "Back", iadmin.root_path, :class => "backlink"
+    %li= link_to "New", iadmin.new_admin_ui_path(:model_name => params[:model_name])
+#main_content
+  %h1= t("#{resource_collection_name}.title"  , :model => params[:model_name] , :site_code => $site_code)
+  #content_search= render 'search_collection'
+  - if collection.any?
+    = render "collection_table"

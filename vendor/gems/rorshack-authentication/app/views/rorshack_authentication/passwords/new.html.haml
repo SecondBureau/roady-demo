@@ -1,0 +1,8 @@
+#registration
+  = semantic_form_for @password do |f|
+    
+    = f.inputs :name => raw(t('.title')) do
+      = f.input :email
+    = f.semantic_errors :account
+    = f.buttons do
+      = f.commit_button t(".reset_password")

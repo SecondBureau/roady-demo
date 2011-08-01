@@ -1,0 +1,5 @@
+- if collection.any? && resource_class.respond_to?(:search)
+  = form_tag iadmin.admin_ui_index_path(:model_name => params[:model_name]), :method => :get, :id => "#{resource_collection_name}_search" do
+    = hidden_field_tag :model_name ,  params[:model_name]
+    = text_field_tag :search, params[:search]
+    = submit_tag t("#{resource_collection_name}.actions.search"), :name => nil

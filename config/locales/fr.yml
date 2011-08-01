@@ -1,0 +1,9 @@
+fr:
+  users:
+    edit:
+      is_opt_in_notification: "I am willing to receive mails from %{site_name}."
+    manage: User Management
+    new_user: New User
+    role_manage: Role Management
+    account:
+      title: User Center

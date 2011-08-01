@@ -1,0 +1,59 @@
+test_event_1:
+  uniq: [code , locale]
+  code: test_event1
+  start_date: <%= 1.months.since %>
+  end_date: <%= 2.months.since %>
+  locale: fr
+  discount: 10
+  title: lipsum
+  description: lipsum
+  content: lipsum
+  offer_count: 30
+  
+test_event_2:
+  uniq: [code , locale]
+  code: test_event2
+  start_date: <%= 1.months.since %>
+  end_date: <%= 2.months.since %>
+  locale: fr
+  discount: 20
+  title: lipsum
+  description: lipsum
+  content: lipsum
+  offer_count: 30
+  
+test_event_3:
+  uniq: [code , locale]
+  code: test_event3
+  start_date: <%= 1.months.since %>
+  end_date: <%= 2.months.since %>
+  locale: fr
+  discount: 30
+  title: lipsum
+  description: lipsum
+  content: lipsum
+  offer_count: 30
+  
+test_event_4:
+  uniq: [code , locale]
+  code: test_event4
+  start_date: <%= 1.months.since %>
+  end_date: <%= 2.months.since %>
+  locale: fr
+  discount: 40
+  title: lipsum
+  description: lipsum
+  content: lipsum
+  offer_count: 30
+  
+test_event_5:
+  uniq: [code , locale]
+  code: test_event5
+  start_date: <%= 1.months.since %>
+  end_date: <%= 2.months.since %>
+  locale: fr
+  discount: 50
+  title: lipsum
+  description: lipsum
+  content: lipsum
+  offer_count: 30

@@ -1,0 +1,48 @@
+#!/usr/bin/env rake
+begin
+  require 'bundler/setup'
+rescue LoadError
+  puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
+end
+begin
+  require 'rdoc/task'
+rescue LoadError
+  require 'rdoc/rdoc'
+  require 'rake/rdoctask'
+  RDoc::Task = Rake::RDocTask
+end
+
+require 'rake'
+require 'rubygems/package_task'
+require 'rspec/core/rake_task'
+
+RSpec::Core::RakeTask.new do |t|
+  t.pattern = 'spec/**/*_spec.rb'
+end
+
+require 'jeweler'
+require './lib/rorshack-admin-ui/version'
+
+RSpec::Core::RakeTask.new do |t|
+  t.pattern = 'spec/**/*_spec.rb'
+end
+Jeweler::Tasks.new do |gem|
+  # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
+  gem.name = "rorshack-admin-ui"
+  gem.summary = "rorshack admin-ui"
+  gem.version = RorshackAdminUi::VERSION
+  gem.description = "rorshack admin-ui"
+  gem.email = "johnson@secondbureau.com"
+  gem.authors = ["johnson of secondbureau"]
+  gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*" , "{db}/**/*" , "{public}/**/*"]
+  gem.add_runtime_dependency 'rails'
+  gem.add_runtime_dependency 'rorshack-support'
+  gem.add_runtime_dependency 'rorshack-frontend'
+  gem.add_runtime_dependency 'rorshack-authentication'
+  gem.add_runtime_dependency 'rorshack-permission'
+  gem.add_runtime_dependency 'inherited_resources' , ">= 1.2.2"
+  gem.add_runtime_dependency 'inherited_resources_views'
+  gem.add_runtime_dependency 'kaminari'
+  gem.add_runtime_dependency "carmen"
+end
+Jeweler::RubygemsDotOrgTasks.new

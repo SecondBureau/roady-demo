@@ -1,0 +1,24 @@
+#navbar-wrapper
+  #navbar
+    %ul.navbar
+      %li= t('about-us')
+      %li= t('job-board')
+      %li= t('contact')
+      %li
+        = image_tag('flags/fr.png')
+        = 'fr'
+      %li
+        = image_tag('icons/cart27.png')
+        = t('cart')
+      - if signed_in?
+        %li
+          = image_tag('icons/account27.png')
+          =# link_to current_user.username, edit_user_path(current_user) 
+        %li= link_to t('user_sessions.logout'), logout_path
+      - else
+        %li
+          = image_tag('icons/account27.png')
+          = link_to t('user_sessions.login'), login_path
+        %li= link_to t('user_sessions.signup'), signup_path
+    
+

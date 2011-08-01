@@ -1,0 +1,10 @@
+= semantic_form_for account, :remote => @remote do |f|
+  = f.inputs :name => title do
+    = f.input :email, :input_html => { :disabled => update }
+    = f.input :password, :as => :password
+    = f.input :password_confirmation, :as => :password
+    = f.submit
+    = #recaptcha_tag(:challenge)
+    -# t("account.#{update ? 'update' : 'create'}")
+    
+-#= render "omniauth_connect", :authorizations => authorizations

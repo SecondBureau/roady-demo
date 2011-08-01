@@ -1,0 +1,6 @@
+require "haml"
+require "haml-rails"
+require "formtastic"
+require "jquery-rails"
+require "rorshack-frontend/inherited_resources_views_ext"
+require "rorshack-frontend/kaminari_fix_for_new_engine"

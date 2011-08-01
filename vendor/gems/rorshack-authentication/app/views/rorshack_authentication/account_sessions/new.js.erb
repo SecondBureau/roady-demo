@@ -1,0 +1,13 @@
+$("#register_form").fadeIn().html("<%= escape_javascript(render("form", :account_session => @account_session)) %>")
+
+$("#register_form").prepend('<div id="close_form" />');
+// TODO: Specific Special Event.
+// To remove or to refactor
+var oldButton = jQuery("#account_session_submit");
+var newButton = oldButton.clone();
+newButton.attr("type", "image");
+newButton.attr("id", "account_session_submit2");
+newButton.insertBefore(oldButton);
+oldButton.remove();
+newButton.attr("id", "account_session_submit")
+$("#account_session_submit").attr('src', '/images/decoration/easter/register-form-submit.png');

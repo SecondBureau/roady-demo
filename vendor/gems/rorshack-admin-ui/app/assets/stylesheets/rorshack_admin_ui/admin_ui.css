@@ -1,0 +1,22 @@
+/*
+ *= require_self
+*/
+
+/* listing tables */
+.index-table {padding: 0;margin: 0;border-collapse: collapse;border: 1px solid #0096d3;font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;font-size: 0.9em;color: #000;background: #bcd0e4;background: -moz-linear-gradient(top, #ffffff, #bcd0e4);}
+.index-table {background: -webkit-gradient(linear,left top, left bottom, from(#ffffff), to(#bcd0e4));}
+.index-table caption {display:none;caption-side: bottom;font-size: 0.9em;font-style: italic;text-align: right;padding: 0.5em 0;}
+.index-table th, .index-table td {border: 1px dotted #0096d3;padding: 0.5em;text-align: left;color: #632a39;}
+.index-table th[scope=col]{color: #000;background-color: #096aaf;text-transform: uppercase;font-size: 0.9em;border-bottom: 2px solid #0096d3;border-right: 2px solid #0096d3;}
+.index-table th+th[scope=col] {color: #c5c6c8;background-color: #096aaf;border-right: 1px dotted #0096d3;}
+.index-table th a{color: #ffffff;}
+.index-table th+th[scope=col] a{color: #c5c6c8;}
+.index-table th[scope=row] {background-color: #b8cfe5;border-right: 2px solid #0096d3;}
+.index-table tr.odd th, .index-table tr.odd td{color: #2a4763;}
+.index-table tr:hover th[scope=row], .index-table tr:hover td{background-color: #632a2a;color: #fff;}
+.index-table th .no_sort {padding-right:12px; background-repeat:no-repeat; background-position:right center;}
+.index-table th .asc {background-image: url(/assets/decoration/up_arrow.gif);}
+.index-table th .desc {background-image: url(/assets/decoration/down_arrow.gif);}
+.highlight {background: yellow;}
+
+

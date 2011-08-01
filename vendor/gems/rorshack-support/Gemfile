@@ -1,0 +1,10 @@
+source "http://rubygems.org"
+
+gem "rails", ">= 3.0.6"
+group :development ,:test do
+  gem 'rspec-rails', '>= 2.5.0'
+  gem "jeweler"
+  gem 'database_cleaner'
+  gem "machinist" , "1.0.6" 
+  gem "mocha"
+end

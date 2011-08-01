@@ -1,0 +1,8 @@
+#form_wrapper
+  = semantic_form_for resource , :url => ( resource.new_record? ?  iadmin.admin_ui_index_path( :model_name => params[:model_name]) : iadmin.admin_ui_path( resource , :model_name => params[:model_name])) do |f|
+    = render "form_body" , :f => f , :model => resource.class
+    %ol
+      - extract_associations!( resource.class ).each do|association|
+        = render_association_form(f , resource , association)
+    = f.buttons do
+      = f.commit_button

@@ -1,0 +1,12 @@
+#side_bar
+  %ul
+    %li 
+#side_bar
+  %ul
+    %li= link_to "Frequency Operations", "#", :class => "backlink"
+    %li= link_to "New Category", iadmin.new_admin_ui_path(:model_name => "Category")
+    %li= link_to "New Product", iadmin.new_admin_ui_path(:model_name => "Product")
+#main_content
+  %ul#main_list
+    - for model_name in @model_names
+      %li= link_to "manage #{model_name}" , iadmin.admin_model_path( :model_name => model_name.to_s )

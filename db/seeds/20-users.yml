@@ -1,0 +1,59 @@
+amin:
+  nickname: amin
+  firstname: Amin
+  lastname: Rafinejad
+  role_id: "{:name => 'administrators'}"
+  gender: M.
+  birthdate: 01/01/1970
+  address: inconnue
+  zipcode: inconnu
+  city: inconnue
+  country: France
+  
+gilles:
+  nickname: gilles
+  firstname: Gilles
+  lastname: Crofils
+  role_id: "{:name => 'administrators'}"
+  gender: M.
+  birthdate: 01/01/1970
+  address: inconnue
+  zipcode: inconnu
+  city: inconnue
+  country: France  
+  
+user1:
+  nickname: johnson
+  firstname: Weihan
+  lastname: Zhang
+  role_id: "{:name => 'users'}"
+  gender: M.
+  birthdate: 01/01/1970
+  address: inconnue
+  zipcode: inconnu
+  city: inconnu
+  country: France
+
+user2:
+  nickname: mark
+  firstname: Zhe
+  lastname: Li
+  role_id: "{:name => 'users'}"
+  gender: M.
+  birthdate: 01/01/1970
+  address: inconnue
+  zipcode: inconnu
+  city: inconnu
+  country: France
+
+guest:
+  nickname: guest
+  firstname: guest
+  lastname: guest
+  role_id: "{:name => 'guests'}"
+  gender: M.
+  birthdate: 01/01/1970
+  address: inconnue
+  zipcode: inconnu
+  city: inconnu
+  country: France

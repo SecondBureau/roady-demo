@@ -1,0 +1,8 @@
+#side_bar
+  %ul
+    %li= link_to "Back", iadmin.admin_ui_index_path(:model_name => params[:model_name]), :class => "backlink"
+    %li= link_to "Details", iadmin.admin_ui_path(resource , :model_name => params[:model_name])
+#main_content
+  %h1 Edit #{resource.class.name.titleize}
+  = render "form"
+  .clear

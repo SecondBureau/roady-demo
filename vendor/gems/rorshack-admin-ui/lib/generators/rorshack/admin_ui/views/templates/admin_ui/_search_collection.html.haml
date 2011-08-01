@@ -1,0 +1,4 @@
+- if collection.any?
+  = form_tag main_app.polymorphic_path(resource_class), :method => :get, :id => "#{collection_name}_search" do
+    = text_field_tag :search, params[:search]
+    = submit_tag t("#{collection_name}.actions.search"), :name => nil

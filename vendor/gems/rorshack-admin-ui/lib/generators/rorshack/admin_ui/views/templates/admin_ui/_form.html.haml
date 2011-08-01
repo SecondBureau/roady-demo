@@ -1,0 +1,15 @@
+= semantic_form_for resource , :url => main_app.polymorphic_path(resource) do |f|
+  = f.inputs do
+    = f.input :locale, :as => :select, :collection => available_locales if display_locales
+    - resource.class.columns.each do|column|
+      - next if ['id', 'created_at', 'updated_at', 'locale', 'admin_only'].include?(column.name)
+      - if resource.class.respond_to?(:uploaders) && resource.class.uploaders.keys.include?(column.name.to_sym)
+        = f.input column.name.to_sym , :as => :file
+      - elsif column.type == :text
+        = f.input column.name, :input_html => {:cols => 80, :rows => 20, :class => "jwysiwyg"}
+      - else
+        = f.input column.name.to_sym
+    - if resource.respond_to?(:admin_only)
+      = f.input :admin_only if can_see_admin_only?
+  = f.buttons do
+    = f.commit_button

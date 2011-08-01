@@ -1,0 +1,10 @@
+source "http://rubygems.org"
+gem "rails"
+gem "jeweler" 
+gem "rorshack-frontend"
+gem "rorshack-support"
+gem "rorshack-authentication"
+gem "rorshack-permission"
+
+gem "rorshack-admin-ui"
+

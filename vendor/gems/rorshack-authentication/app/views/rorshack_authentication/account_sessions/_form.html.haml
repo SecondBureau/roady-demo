@@ -1,0 +1,12 @@
+= semantic_form_for account_session, :url => iauth.account_sessions_path , :remote => @remote do |f|
+  = f.inputs :name => title do
+    = f.input :email , :error_class => 'display_none', :label => t('account_sessions.username')
+    = f.input :password , :error_class => 'display_none', :label => t('account_sessions.password')
+    = f.submit
+    %span.forgot_password= link_to t('passwords.forgot'), new_password_path
+-# t("account_sessions.create")
+    
+%p.error
+  %br
+  %br
+  = @error || ''

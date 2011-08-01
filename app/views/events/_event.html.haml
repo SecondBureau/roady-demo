@@ -1,0 +1,6 @@
+%li.event_item
+  .event_title= link_to event.title, main_app.event_path(event.code)
+  .event_date
+    .event_start_date= "start: " + event.start_date.to_s(:db)
+    .event_end_date= raw "&nbsp;end:&nbsp;" + event.end_date.to_s(:db)
+  

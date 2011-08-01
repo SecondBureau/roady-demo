@@ -1,0 +1,37 @@
+/*
+ * This is a manifest file that'll automatically include all the stylesheets available in this directory
+ * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+ * the top of the compiled file, but it's generally better to create a new file per style scope.
+ *= require reset
+ *= require common
+ *= require rorshack_admin_ui/admin_layout
+ *= require rorshack_admin_ui/admin_formtastic
+ *= require jquery.wysiwyg
+ *= require_self
+*/
+
+body{
+  font-family: "Helvetica Neue",Helvetica,Arial,freesans;
+  font-size: 14px;
+}
+
+a{
+  text-decoration: none;
+  color: #ff6644;
+  &:hover{text-decoration: underline; color: #9B2A00;}
+}
+
+h3{font-size: 1.5em;}
+.association {
+  .has_many_div{float:left; padding:10px; background:#FFA500; margin:0px 10px 10px 0px; width:292px; height:228px;
+    .preview_of_resource{margin:10px 0px;
+      .preview_logo{float:left;}
+      .preview_options{float:left; margin-left:10px;
+        span{display:block;}
+      }
+    }
+  }
+}
+.datatable th {padding-right:14px; background-repeat:no-repeat; background-position:right center;}
+.datatable th.asc {background-image: url(/assets/rorshack_admin_ui/up_arrow.gif) ;}
+.datatable th.desc {background-image: url(/assets/rorshack_admin_ui/down_arrow.gif);}

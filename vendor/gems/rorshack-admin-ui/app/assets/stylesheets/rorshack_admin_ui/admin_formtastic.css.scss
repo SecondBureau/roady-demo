@@ -1,0 +1,14 @@
+form.formtastic{
+  ol{
+    li{padding: 5px 0px;
+      label{display:block; padding: 5px 0px;}
+    }
+  }
+  li.datetime{
+    ol li{float:left; margin-right: 10px;}
+  }
+}
+
+#form_wrapper{padding: 0px 10px;}
+
+input{height: 25px; vertical-align: middle;}

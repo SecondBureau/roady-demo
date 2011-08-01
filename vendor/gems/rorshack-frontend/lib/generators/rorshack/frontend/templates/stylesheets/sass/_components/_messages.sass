@@ -1,0 +1,30 @@
+@import ../_colors/_all
+
+@mixin  message_box
+  padding: 5px 8px
+  margin: 10px 0
+  text-align: center
+
+@mixin  notice
+  background-color: #CFC
+  color: $notice_color
+  border
+    style: solid
+    width: 1px
+    color: $notice_border_color
+
+@mixin  error
+  background-color: $error_background_color
+  color: $error_color
+  border
+    style: solid
+    width: 1px
+    color: $error_border_color
+
+#flash_notice
+  @include  message_box
+  @include  notice
+
+#flash_error
+  @include  message_box
+  @include  error

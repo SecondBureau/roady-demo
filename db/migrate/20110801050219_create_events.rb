@@ -1,0 +1,16 @@
+class CreateEvents < ActiveRecord::Migration
+  def change
+    create_table :events do |t|
+      t.string :code
+      t.datetime :start_date
+      t.datetime :end_date
+      t.string :locale , :default => "fr"
+      t.string :discount
+      t.string :title
+      t.text :description
+      t.text :content
+      t.integer :offer_count
+      t.timestamps
+    end
+  end
+end

@@ -1,0 +1,8 @@
+%h1= t 'or'
+
+%h2= t 'account_sessions.sign_in_with'
+.clear
+=# link_to image_tag("auth/google_64.png"), "/iauth/auth/open_id?openid_url=https://www.google.com/accounts/o8/id"
+- ["twitter","facebook"].each do |provider|
+  = link_to image_tag("auth/#{provider}_64.png"), "/iauth/auth/#{provider}"
+

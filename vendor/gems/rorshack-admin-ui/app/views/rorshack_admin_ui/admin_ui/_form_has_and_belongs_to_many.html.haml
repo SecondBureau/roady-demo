@@ -1,0 +1,3 @@
+=f.input association.name , :as => :select , :collection => association.klass.all , :include_blank => false , :multible => true
+=link_to "manage #{ association.klass.name.humanize }" , iadmin.admin_model_path( :model_name => association.klass.name ) , :target => "_blank"
+

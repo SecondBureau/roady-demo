@@ -1,0 +1,21 @@
+#admin_title
+  %h1= t("admin_ui.header.title" , :site_code => $site_code)
+.clear
+#header_nav
+  %ul
+    %li= link_to t("admin.title"), iadmin.root_path
+    - RorshackAdminUi::ADMINABLE_MODELS.map{|_| _.is_a?(Hash) ? _.keys.first : _}.each do|model|
+      -if params[:model_name] == model.to_s
+        %li= link_to model.to_s.titleize , iadmin.admin_model_path( :model_name => model.to_s ) , {:class => "current"}
+      -else
+        %li= link_to model.to_s.titleize , iadmin.admin_model_path( :model_name => model.to_s )
+    
+#login_out
+  %ul
+    - if signed_in?
+      %li= link_to "User Account", main_app.user_path(current_user)
+      %li= link_to t('logout') , iauth.logout_path
+    - else
+      %li= link_to t('login'), iauth.login_path
+      %li= link_to t('signup'), iauth.signup_path
+.clear

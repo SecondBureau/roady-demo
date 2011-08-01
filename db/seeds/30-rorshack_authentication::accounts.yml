@@ -1,0 +1,34 @@
+amin:
+  uniq: [email]
+  email: amin@secondbureau.com
+  password: secret
+  password_confirmation: secret
+  user_id: "{:nickname => 'amin'}"
+  
+gilles:
+  uniq: [email]
+  email: gilles@secondbureau.com
+  password: secret
+  password_confirmation: secret
+  user_id: "{:nickname => 'gilles'}"
+  
+user1:
+  uniq: [email]
+  email: johnson@secondbureau.com
+  password: secret
+  password_confirmation: secret
+  user_id: "{:nickname => 'johnson'}"
+  
+user2:
+  uniq: [email]
+  email: mark@secondbureau.com
+  password: secret
+  password_confirmation: secret
+  user_id: "{:nickname => 'mark'}"
+
+guest:
+  uniq: [email]
+  email: guest@secondbureau.com
+  password: secret
+  password_confirmation: secret
+  user_id: "{:nickname => 'guest'}"

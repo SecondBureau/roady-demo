@@ -1,0 +1,6 @@
+%div{:class => "#{resource.class.to_s.downcase}_has_many_#{association.name} association"}
+  %h3= t(".title" , :association => association.name)
+  =f.semantic_fields_for prepare_has_one_association_form_params(association , resource) do|af|
+    .has_one_div
+      = render "preview_of_resource" , :object => af.object unless af.object.new_record?
+      = render "form_body" , :f => af , :model => association.klass

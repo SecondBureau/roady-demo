@@ -1,0 +1,44 @@
+test_product_1:
+  uniq: [code , locale]
+  code: test_product1
+  locale: fr
+  title: lipsum
+  description: lipsum
+  content: lipsum
+  event_ids: "{:code => 'test_event1'}"
+  
+test_product_2:
+  uniq: [code , locale]
+  code: test_product2
+  locale: fr
+  title: lipsum
+  description: lipsum
+  content: lipsum
+  event_ids: "{:code => 'test_event2'}"
+  
+test_product_3:
+  uniq: [code , locale]
+  code: test_product3
+  locale: fr
+  title: lipsum
+  description: lipsum
+  content: lipsum
+  event_ids: "{:code => 'test_event3'}"
+  
+test_product_4:
+  uniq: [code , locale]
+  code: test_product4
+  locale: fr
+  title: lipsum
+  description: lipsum
+  content: lipsum
+  event_ids: "{:code => 'test_event4'}"
+  
+test_product_5:
+  uniq: [code , locale]
+  code: test_product5
+  locale: fr
+  title: lipsum
+  description: lipsum
+  content: lipsum
+  event_ids: "{:code => 'test_event5'}"

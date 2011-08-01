@@ -1,0 +1,14 @@
+1. copy rorshack_admin_ui into /vendor/gems
+
+2. add follow snipet into Gemfile of rails project
+  
+    gem "carrierwave"
+
+    path "./vendor/gems" do
+      gem "rorshack-support"
+      gem "rorshack-frontend"
+      gem "rorshack-admin-ui"
+    end
+    
+3. add a initializers and append following snipet
+  RorshackAdminUi::ADMINABLE_MODELS << %w[setting page user category product]

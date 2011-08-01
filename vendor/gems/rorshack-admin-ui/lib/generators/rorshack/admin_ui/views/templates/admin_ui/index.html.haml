@@ -1,0 +1,7 @@
+=content_for :head do
+  =stylesheet_link_tag "assets/rorshack_admin_ui/admin_ui"
+%h1= t("#{collection_name}.title")
+= render 'inherited_resources/search_collection'
+- if collection.any?
+  = render "collection_table"
+= render "index_navigation"

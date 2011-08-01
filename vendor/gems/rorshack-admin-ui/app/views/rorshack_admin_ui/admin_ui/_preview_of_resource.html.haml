@@ -1,0 +1,22 @@
+.preview_of_resource
+  .preview_logo= render_logo(object) if has_logo?(object)
+  .preview_options
+    = render_object_characteristic(object)
+    %br
+    = link_to image_tag("rorshack_admin_ui/icons/edit.png", :title => "Edit"), iadmin.edit_admin_ui_path(object , :model_name => object.class)
+    &nbsp;&nbsp;
+    = link_to image_tag("rorshack_admin_ui/icons/details.png", :title => "Details"), iadmin.admin_ui_path(object , :model_name => object.class)
+    &nbsp;&nbsp;
+    = link_to image_tag("rorshack_admin_ui/icons/delete.png", :title => "Delete"), iadmin.admin_ui_path( object , :model_name => object.class ) , :onclick=>"if(!confirm(\"#{t('confirm_delete')}\")) return false;; ajax_delete_#{object.class}(this);return false;"
+ 
+=content_for :head do
+  :javascript
+    var ajax_delete_#{object.class} = function(link){
+      $.ajax({
+        url: $(link).attr("href"),
+        type: "DELETE",
+        success: function(){
+          location.reload();
+        }
+      });
+    }

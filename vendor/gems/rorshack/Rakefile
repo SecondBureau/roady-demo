@@ -1,0 +1,28 @@
+require 'rubygems'
+require 'bundler'
+begin
+  Bundler.setup(:default, :development)
+rescue Bundler::BundlerError => e
+  $stderr.puts e.message
+  $stderr.puts "Run `bundle install` to install missing gems"
+  exit e.status_code
+end
+require 'rake'
+
+require 'jeweler'
+require './lib/rorshack/version'
+Jeweler::Tasks.new do |gem|
+  # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
+  gem.name = "rorshack"
+  gem.summary = "rorshack"
+  gem.description = "rorshack"
+  gem.version = Rorshack::VERSION
+  gem.email = "johnson@secondbureau.com"
+  gem.authors = ["johnson"]
+  gem.add_runtime_dependency "rorshack-frontend"
+  gem.add_runtime_dependency "rorshack-admin-ui"
+  gem.add_runtime_dependency "rorshack-support"
+  gem.add_runtime_dependency "rorshack-authentication"
+  gem.add_runtime_dependency "rorshack-permission"
+end
+Jeweler::RubygemsDotOrgTasks.new

@@ -1,0 +1,8 @@
+var popID = 'popup';
+var popWidth = 500;
+$("#popup-content").html("<%= escape_javascript(render("setting")) %>")
+$('#popup').fadeIn().css({ 'width': Number( popWidth ) });
+var popMargTop = ($('#popup').height() + 80) / 2;
+var popMargLeft = ($('#popup').width() + 80) / 2;
+$('#popup').css({'margin-top' : -popMargTop, 'margin-left' : -popMargLeft});
+$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); 

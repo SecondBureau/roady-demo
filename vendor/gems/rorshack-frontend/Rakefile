@@ -1,0 +1,42 @@
+require 'rubygems'
+require 'bundler'
+begin
+  Bundler.setup(:default, :development)
+rescue Bundler::BundlerError => e
+  $stderr.puts e.message
+  $stderr.puts "Run `bundle install` to install missing gems"
+  exit e.status_code
+end
+require 'rake'
+
+require 'jeweler'
+require './lib/rorshack-frontend/version'
+
+require 'rubygems/package_task'
+require 'rspec/core/rake_task'
+
+RSpec::Core::RakeTask.new do |t|
+  t.pattern = 'spec/**/*_spec.rb'
+end
+
+Jeweler::Tasks.new do |gem|
+  # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
+  gem.name = "rorshack-frontend"
+  gem.homepage = "http://github.com/johnson@secondbureau.com/rorshack-frontend"
+  gem.license = "MIT"
+  gem.summary = "frontend package of rorshack"
+  gem.description =  "frontend package of rorshack"
+  gem.email = "johnson@secondbureau.com"
+  gem.authors = ["johnson"]
+  gem.version = Rorshack::Frontend::VERSION
+  gem.files = Dir["{lib}/**/*"]
+  gem.add_runtime_dependency 'rorshack-support'
+  gem.add_runtime_dependency 'haml-rails' , ">= 0.3.4"
+  gem.add_runtime_dependency 'formtastic'
+  gem.add_runtime_dependency 'sass' , ">= 3.1.4"
+  gem.add_runtime_dependency 'jquery-rails'
+  gem.add_runtime_dependency 'hpricot' , ">= 0.8.4"
+  gem.add_runtime_dependency 'ruby_parser'
+  gem.add_runtime_dependency 'kaminari' , "0.12.4"
+end
+Jeweler::RubygemsDotOrgTasks.new

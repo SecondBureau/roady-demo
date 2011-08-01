@@ -1,0 +1,40 @@
+%div{:class => "#{resource.class.to_s.downcase}_has_many_#{association.name} association"}
+  %h3= t(".title" , :association => association.name)
+  =f.semantic_fields_for prepare_has_many_association_form_params(association , resource) do|af|
+    .has_many_div
+      = render "preview_of_resource" , :object => af.object unless af.object.new_record?
+      = render "form_body" , :f => af , :model => association.klass
+.clear
+=link_to_function t(".add_more" , :association => association.name) , "#{resource.class.to_s.downcase}_has_many_#{association.name}_add_more();"
+.clear
+=content_for(:head) do
+  :javascript
+    var #{resource.class.to_s.downcase}_has_many_#{association.name}_form_html = "";
+    var #{resource.class.to_s.downcase}_has_many_#{association.name}_count = 0;
+    var #{resource.class.to_s.downcase}_has_many_#{association.name}_html_mark = "";
+    var #{resource.class.to_s.downcase}_has_many_#{association.name}_form_mark = "";
+    var #{resource.class.to_s.downcase}_has_many_#{association.name}_add_more;
+    $(function(){
+      #{resource.class.to_s.downcase}_has_many_#{association.name}_form_html = 
+          $(".#{resource.class.to_s.downcase}_has_many_#{association.name} > div.has_many_div > fieldset:first").outerHTML() + 
+          $(".#{resource.class.to_s.downcase}_has_many_#{association.name} > div.has_many_div > input[type=hidden]:first").outerHTML();
+      
+      #{resource.class.to_s.downcase}_has_many_#{association.name}_count = $(".#{resource.class.to_s.downcase}_has_many_#{association.name} > div.has_many_div > fieldset").size();
+      
+      #{resource.class.to_s.downcase}_has_many_#{association.name}_html_mark = "#{resource.class.to_s.downcase}_#{association.name}_attributes_$count";
+      #{resource.class.to_s.downcase}_has_many_#{association.name}_form_mark = "#{resource.class.to_s.downcase}[#{association.name}_attributes][$count]";
+      
+      #{resource.class.to_s.downcase}_has_many_#{association.name}_add_more = function(){
+        var #{resource.class.to_s.downcase}_has_many_#{association.name}_add_more_html = 
+          #{resource.class.to_s.downcase}_has_many_#{association.name}_form_html.replace( 
+              #{resource.class.to_s.downcase}_has_many_#{association.name}_html_mark.replace("$count" , "0"),
+              #{resource.class.to_s.downcase}_has_many_#{association.name}_html_mark.replace("$count" , "" + #{resource.class.to_s.downcase}_has_many_#{association.name}_count)
+            ).replace(
+              #{resource.class.to_s.downcase}_has_many_#{association.name}_form_mark.replace("$count" , "0"),
+              #{resource.class.to_s.downcase}_has_many_#{association.name}_form_mark.replace("$count" , "" + #{resource.class.to_s.downcase}_has_many_#{association.name}_count)
+            )
+        $(".#{resource.class.to_s.downcase}_has_many_#{association.name}").append("<div class='has_many_div'>" + #{resource.class.to_s.downcase}_has_many_#{association.name}_add_more_html + "</div>");
+        #{resource.class.to_s.downcase}_has_many_#{association.name}_count += 1;
+      }
+      
+    })

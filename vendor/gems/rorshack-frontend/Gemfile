@@ -1,0 +1,22 @@
+source :rubygems
+gem "rails"
+gem "rake"
+gem "jeweler"
+
+gem 'rorshack-support'
+gem 'haml-rails'
+gem 'formtastic'
+gem "sass"
+gem "hpricot"
+gem "ruby_parser"
+
+gem 'haml-rails'
+
+gem 'jquery-rails'
+
+gem "rspec-rails"
+gem 'database_cleaner'
+gem "forgery"
+gem "machinist" , "1.0.6"
+
+gem "kaminari"

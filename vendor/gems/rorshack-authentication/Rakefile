@@ -1,0 +1,51 @@
+#!/usr/bin/env rake
+begin
+  require 'bundler/setup'
+rescue LoadError
+  puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
+end
+begin
+  require 'rdoc/task'
+rescue LoadError
+  require 'rdoc/rdoc'
+  require 'rake/rdoctask'
+  RDoc::Task = Rake::RDocTask
+end
+
+require 'rake'
+require 'rubygems/package_task'
+require 'rspec/core/rake_task'
+
+RSpec::Core::RakeTask.new do |t|
+  t.pattern = 'spec/**/*_spec.rb'
+end
+
+require 'jeweler'
+require './lib/rorshack-authentication/version'
+
+RSpec::Core::RakeTask.new do |t|
+  t.pattern = 'spec/**/*_spec.rb'
+end
+Jeweler::Tasks.new do |gem|
+  # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
+  gem.name = "rorshack-authentication"
+  gem.homepage = "http://github.com/johnson@secondbureau.com/rorshack-authentication"
+  gem.summary = "rorshack authentication"
+  gem.version = RorshackAuthentication::VERSION
+  gem.description = "rorshack authentication"
+  gem.email = "johnson@secondbureau.com"
+  gem.authors = ["johnson of secondbureau"]
+  gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*" , "{db}/**/*" , "{public}/**/*"]
+  gem.add_runtime_dependency 'rorshack-support' 
+  gem.add_runtime_dependency 'rorshack-frontend'
+  gem.add_runtime_dependency 'omniauth' , ">= 0.2.6"
+  gem.add_runtime_dependency 'authlogic', ">= 3.0.3"
+  gem.add_runtime_dependency 'haml-rails', ">= 0.3.4"
+  gem.add_runtime_dependency 'formtastic' , ">= 1.2.4"
+  gem.add_runtime_dependency "rails" , ">= 3.1.0.rc4"
+  gem.add_runtime_dependency 'rack-recaptcha' , ">= 0.6.0"
+end
+Jeweler::RubygemsDotOrgTasks.new
+
+APP_RAKEFILE = File.expand_path("../spec/dummy/Rakefile", __FILE__)
+load 'rails/tasks/engine.rake'

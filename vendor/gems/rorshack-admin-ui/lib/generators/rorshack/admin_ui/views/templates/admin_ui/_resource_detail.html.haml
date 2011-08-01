@@ -1,0 +1,11 @@
+%table{:class => "#{collection.first.class.to_s.downcase} detail"}
+  - resource.attributes.each_pair do |attr, value|
+    - next if ['id', 'created_at', 'updated_at'].include?(attr)
+    - if resource.class.respond_to?(:uploaders) && resource.class.uploaders.keys.include?(attr.to_sym)
+      %tr
+        %th= attr.titleize
+        %td= image_tag resource.send("#{attr}_url")
+    - else
+      %tr
+        %th= attr.titleize
+        %td= value

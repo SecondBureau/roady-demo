@@ -1,0 +1,19 @@
+!!! 5
+%html
+  %head
+    %title= t("admin_ui.header.title" , :site_code => $site_code)
+    %link{:href => "/assets/favicon.ico", :rel => "icon", :type => "image/x-icon"}
+    = stylesheet_link_tag     "rorshack_admin_ui/admin"
+    = javascript_include_tag  "rorshack_admin_ui/admin"
+    = csrf_meta_tags
+    = yield :head
+  %body
+    #body_wrapper
+      -# for the site header
+      #header= render "rorshack_admin_ui/admin/header"
+        
+      -# for the main content
+      #content= yield
+      
+      -# for the site footer
+      #footer= render "rorshack_admin_ui/admin/footer"

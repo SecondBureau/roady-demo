@@ -1,0 +1,22 @@
+=render_collection_table(collection)do|columns|
+  %table.datatable
+    %thead
+      %tr
+        - columns.each do|column|
+          - if column.in?(extract_sortable_columns!( collection.first.class ))
+            %th{:class => (column == params[:sort] ? params[:sort_direction] : nil)}= link_to_sortable column
+          -else
+            %th= column.titleize
+        %th Operations
+    %tbody
+    - collection.each do |r|
+      %tr
+        - columns.each do|column|
+          %td= render_content(r , column )
+        %td.operations
+          = link_to image_tag("rorshack_admin_ui/icons/edit.png", :title => "Edit"), iadmin.edit_admin_ui_path(r , :model_name => params[:model_name])
+          &nbsp;&nbsp;
+          = link_to image_tag("rorshack_admin_ui/icons/details.png", :title => "Details"), iadmin.admin_ui_path(r , :model_name => params[:model_name])
+          &nbsp;&nbsp;
+          = link_to image_tag("rorshack_admin_ui/icons/delete.png", :title => "Delete"), iadmin.admin_ui_path(r , :model_name => params[:model_name]), :confirm => 'Are you sure?', :method => :delete
+=paginate collection

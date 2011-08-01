@@ -1,0 +1,32 @@
+guest:
+  uniq: [name]
+  name: guests
+  permissions:
+    :product: 2
+    :category: 2
+    :messages: 1
+  is_default_role: false
+admins:
+  uniq: [name]
+  name: administrators
+  permissions:
+    :user: 31
+    :role: 31
+    :setting: 31
+    :page: 31
+    :product: 31
+    :category: 31
+    :image: 31
+    :message: 31
+  is_default_role: false
+
+user:
+  uniq: [name]
+  name: users
+  permissions:
+    :user: 7
+    :product: 2
+    :category: 2
+    :messages: 3
+  is_default_role: true
+

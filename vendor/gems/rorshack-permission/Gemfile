@@ -1,0 +1,14 @@
+source :rubygems
+gem 'rorshack-authentication'
+
+gem "rails"
+gem "rake"
+gem "jeweler"
+gem "sqlite3"
+gem "cancan"
+
+gem "rspec-rails"
+gem 'database_cleaner'
+gem "forgery"
+gem "machinist" , "1.0.6"
+

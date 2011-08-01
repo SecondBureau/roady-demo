@@ -1,0 +1,12 @@
+= f.inputs do
+  - extract_columns!( model ).each do|column|
+    - if model.respond_to?(:uploaders) && model.uploaders.keys.include?(column.name.to_sym)
+      = f.input column.name.to_sym , :as => :file
+    - elsif column.name.to_sym == :locale
+      = f.input :locale , :as => :select , :collection => available_locales , :include_blank => false  if display_locales
+    - elsif column.type == :text
+      = f.input column.name, :input_html => {:cols => 80, :rows => 12, :class => "jwysiwyg"}
+    - else
+      = f.input column.name.to_sym
+  - if extract_columns!( model ).include?(:admin_only)
+    = f.input :admin_only if can_see_admin_only?

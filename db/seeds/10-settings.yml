@@ -1,0 +1,62 @@
+address:
+  uniq: [name, locale]
+  name: address
+  value: lipsum
+  locale: fr
+  tooltip: Adresse postale sur une seule ligne
+  
+phone:
+  uniq: [name, locale]
+  name: phone
+  value: "0102030405"
+  locale: fr
+  tooltip: Téléphone affiché en home page
+  
+email1:
+  uniq: [name, locale]
+  name: no_reply_sender
+  value: "no-reply@secondbureau.com" 
+  locale: fr
+  tooltip:
+  
+keywords:
+  uniq: [name, locale]
+  name: keywords
+  value: "Second Bureau, marketing digital"
+  locale: fr
+  tooltip: 
+  
+description_fr:
+  uniq: [name, locale]
+  name: description
+  value: "kidsecret : powered by secondbureau"
+  locale: fr
+  tooltip:
+  
+description_zh:
+  uniq: [name, locale]
+  name: description
+  value: "kidsecret: secondbureau 鼎力支持！"
+  locale: zh
+  tooltip:
+  
+title:
+  uniq: [name, locale]
+  name: title
+  value: "Marketing Digital"
+  locale: fr
+  tooltip: Titre par défaut
+  
+invitaion_count_limit:
+  uniq: [name, locale]
+  name: invitation_count_limit
+  value: 10
+  locale: fr
+  tooltip: invitation count limit
+  
+invitaion_bonus:
+  uniq: [name, locale]
+  name: invitation_bonus
+  value: 10
+  locale: fr
+  tooltip: invitation bonus
