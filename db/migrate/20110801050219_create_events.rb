@@ -5,10 +5,10 @@ class CreateEvents < ActiveRecord::Migration
       t.datetime :start_date
       t.datetime :end_date
       t.string :locale , :default => "fr"
-      t.string :discount
       t.string :title
       t.text :description
       t.text :content
+      t.integer :discount
       t.integer :offer_count
       t.timestamps
     end

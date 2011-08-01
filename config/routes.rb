@@ -7,6 +7,5 @@ RoadyDemo::Application.routes.draw do
 
   mount RorshackAuthentication::Engine => "/iauth", :as => "iauth"
 
-  # the root of the website
-  root :to => "pages#index"
+  root :to => "events#index"
 end

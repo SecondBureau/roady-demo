@@ -26,7 +26,7 @@ module RorshackAuthentication
           @current_account_session = RorshackAuthentication::AccountSession.create(@account)
           flash[:notice] = t("successfully_logged_in")
           UserNotification.registration_notification(@account).deliver
-          redirect_to main_app.edit_user_path( @account.user )
+          redirect_to iauth.edit_user_path( @account.user )
         else
           render_new
         end

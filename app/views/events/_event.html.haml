@@ -3,4 +3,5 @@
   .event_date
     .event_start_date= "start: " + event.start_date.to_s(:db)
     .event_end_date= raw "&nbsp;end:&nbsp;" + event.end_date.to_s(:db)
-  
+  .event_description= event.description
+  .event_offer_count= t(".offer_count_message" , :offer_count => event.offer_count)
