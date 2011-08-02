@@ -19,6 +19,26 @@ class User < ActiveRecord::Base
   before_validation :make_avatar
   before_validation :make_uid
   
+  def self.callback_invitee!( action , uid )
+    if invitor = find_by_uid(uid)
+      case action
+        when :invited
+          invitor.increment!(:points , Setting.local_value("invitee_invited_bonus").to_i)
+        when :signup
+          invitor.increment!(:points , Setting.local_value("invitee_signup_bonus").to_i)
+        when :offer
+          invitor.increment!(:points , Setting.local_value("invitee_offer_bonus").to_i)
+      end
+    end
+  end
+  def email
+    account.email
+  end
+  
+  def friends
+    ([invitor] | invitees).compact
+  end
+  
   protected
   
   def make_uid

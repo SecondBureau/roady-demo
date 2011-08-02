@@ -1,0 +1,4 @@
+var form_content = #{raw render("messages/form", :message => @message , :event => @event).inspect};
+var hide_form_bg = function(){ $(".form_background").fadeOut("fast"); $(".message_form").hide().replaceWith(form_content); $(".message_close").click(function(){ $(".form_content").slideUp("fast", hide_form_bg); });};
+var show_success = function(){ $(".create_success").fadeIn("fast").delay(1200).fadeOut("fast", hide_form_bg); };
+$(".form_content").slideUp("fast", show_success);

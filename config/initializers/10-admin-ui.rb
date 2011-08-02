@@ -4,7 +4,7 @@ RorshackAdminUi::ADMINABLE_MODELS <<
   [
     :setting ,
     :page ,
-    {:user => [:avatar , :account , :role] },
+    {:user => [:avatar , :account , :role , :invitees , :invitor] },
     {:product => [:images , :events]},
     {:event => [:images , :products]}
   ]

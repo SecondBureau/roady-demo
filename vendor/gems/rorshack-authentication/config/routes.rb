@@ -3,7 +3,6 @@ RorshackAuthentication::Engine.routes.draw do
   resources :accounts , :only => [:new , :create , :edit]
   resources :account_sessions , :only => [:new , :create , :destroy]
   resources :passwords , :only => [:new , :show, :create , :edit]
-  resources :users
   match '/login'    => 'account_sessions#new'
   match '/logout'   => 'account_sessions#destroy'
   match '/signup'   => 'accounts#new'

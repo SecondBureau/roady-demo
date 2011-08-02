@@ -1,0 +1,9 @@
+.message_form
+  .form_content
+    .message_close= image_tag("icons/orange_close.png")
+    =semantic_form_for message, :url => main_app.polymorphic_path(message , :ec => event.code) , :remote => true do |form|
+      %p= t('contact_us_explanation')
+      =form.input :email , :input_html => { :value =>  signed_in? ? current_user.email : message.email  }
+      =form.input :content, :input_html => {:cols => 40, :rows => 10 , :value => t(".message_normal" , :event_title => event.title)  }
+      =form.submit
+  .create_success= t(".message_sent_successfully")

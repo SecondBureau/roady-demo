@@ -24,7 +24,6 @@ class Image < ActiveRecord::Base
                     else
                       "unknow_image.png"
                     end
-      pp File.join( unknow_image_path , unknow_image )
       File.join( unknow_image_path , unknow_image )
     end
 end

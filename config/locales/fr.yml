@@ -9,4 +9,8 @@ fr:
       title: User Center
   events:
     event:
-      offer_count_message: "Offer left: %{offer_count}"
+      offer_count_message: "Offer left: %{left_count}/%{offer_count}"
+      offer: "Offer"
+  messages:
+    form:
+      message_normal: "I wanna offer %{event_title}"

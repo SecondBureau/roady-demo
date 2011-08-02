@@ -5,7 +5,10 @@ class EventsController < ApplicationController
   end
     
   def show
-    @event = Event.of_locale_or_default.unexpired.where(:code => params[:code]).first
+    @event = Event.of_locale_or_default.unexpired.where(:code => params[:id]).first
   end
 
+  def edit
+    @event = Event.of_locale_or_default.unexpired.where(:code => params[:id]).first
+  end
 end

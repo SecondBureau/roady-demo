@@ -10,18 +10,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110801050319) do
+ActiveRecord::Schema.define(:version => 20110802082526) do
 
   create_table "events", :force => true do |t|
     t.string   "code"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.string   "locale",      :default => "fr"
-    t.string   "discount"
+    t.string   "locale",        :default => "fr"
     t.string   "title"
     t.text     "description"
     t.text     "content"
-    t.integer  "offer_count"
+    t.integer  "discount"
+    t.integer  "offer_count",   :default => 0
+    t.integer  "offered_count", :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -38,6 +39,13 @@ ActiveRecord::Schema.define(:version => 20110801050319) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+  end
+
+  create_table "messages", :force => true do |t|
+    t.string   "email"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "pages", :force => true do |t|
@@ -110,6 +118,9 @@ ActiveRecord::Schema.define(:version => 20110801050319) do
     t.string   "city"
     t.string   "country",    :default => "France"
     t.integer  "invitor_id"
+    t.string   "uid"
+    t.boolean  "is_opt_in"
+    t.integer  "points",     :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "role_id"

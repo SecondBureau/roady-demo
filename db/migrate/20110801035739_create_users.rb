@@ -13,6 +13,7 @@ class CreateUsers < ActiveRecord::Migration
       t.integer  :invitor_id
       t.string   :uid
       t.boolean  :is_opt_in
+      t.integer  :points  , :default => 0
       t.timestamps
     end
   end

@@ -1,0 +1,6 @@
+$(".message_form").replaceWith(#{raw render( "messages/form", :message => @message , :event => @event).inspect});
+var hide_form_bg = function(){ $(".form_background").fadeOut("fast"); $(".message_form").hide();};
+$(".message_close").click(function(){ $(".form_content").slideUp("fast", hide_form_bg); });
+$(".message_form").show();
+$(".form_content").show();
+

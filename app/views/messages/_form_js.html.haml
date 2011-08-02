@@ -1,0 +1,18 @@
+.form_background
+
+= content_for :header do
+  :javascript
+    $(function(){
+      $(".event_offer_button").click(function(){
+        $(".message_form").show();
+        $(".form_background").fadeIn("fast", function(){
+          $('.form_content').slideDown("fast");
+        });
+      });
+
+      $(".message_close").click(function(){
+        var hide_form_bg = function(){ $(".form_background").fadeOut("fast"); $(".message_form").hide();};
+        $(".form_content").slideUp("fast", hide_form_bg);
+      });
+    });
+
