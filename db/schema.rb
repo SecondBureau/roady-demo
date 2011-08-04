@@ -10,18 +10,35 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110801050319) do
+ActiveRecord::Schema.define(:version => 20110804043146) do
+
+  create_table "event_bonus", :force => true do |t|
+    t.integer "invitor_id"
+    t.integer "event_id"
+    t.integer "points"
+    t.string  "offer_code"
+  end
+
+  create_table "event_tracks", :force => true do |t|
+    t.integer  "invitor_id"
+    t.integer  "event_id"
+    t.integer  "points"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "events", :force => true do |t|
     t.string   "code"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.string   "locale",      :default => "fr"
-    t.string   "discount"
+    t.string   "locale",          :default => "fr"
     t.string   "title"
     t.text     "description"
     t.text     "content"
-    t.integer  "offer_count"
+    t.integer  "discount"
+    t.integer  "required_points"
+    t.integer  "offer_count",     :default => 0
+    t.integer  "offered_count",   :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -110,6 +127,8 @@ ActiveRecord::Schema.define(:version => 20110801050319) do
     t.string   "city"
     t.string   "country",    :default => "France"
     t.integer  "invitor_id"
+    t.string   "uid"
+    t.boolean  "is_opt_in"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "role_id"

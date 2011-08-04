@@ -26,37 +26,24 @@ keywords:
   locale: fr
   tooltip: 
   
-description_fr:
+invite_unregister_bonus:
   uniq: [name, locale]
-  name: description
-  value: "kidsecret : powered by secondbureau"
+  name: invite_unregister_bonus
+  value: 1
   locale: fr
-  tooltip:
+  tooltip: invite_unregister_bonus
   
-description_zh:
+invite_registered_bonus:
   uniq: [name, locale]
-  name: description
-  value: "kidsecret: secondbureau 鼎力支持！"
-  locale: zh
-  tooltip:
-  
-title:
-  uniq: [name, locale]
-  name: title
-  value: "Marketing Digital"
+  name: invite_registered_bonus
+  value: 2
   locale: fr
-  tooltip: Titre par défaut
+  tooltip: invite_registered_bonus
   
-invitaion_count_limit:
+invitee_signup_bonus:
   uniq: [name, locale]
-  name: invitation_count_limit
-  value: 10
+  name: invitee_signup_bonus
+  value: 20
   locale: fr
-  tooltip: invitation count limit
-  
-invitaion_bonus:
-  uniq: [name, locale]
-  name: invitation_bonus
-  value: 10
-  locale: fr
-  tooltip: invitation bonus
+  tooltip: invitee_signup_bonus
+

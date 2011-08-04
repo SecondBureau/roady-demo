@@ -4,4 +4,8 @@
     .event_start_date= "start: " + event.start_date.to_s(:db)
     .event_end_date= raw "&nbsp;end:&nbsp;" + event.end_date.to_s(:db)
   .event_description= event.description
-  .event_offer_count= t(".offer_count_message" , :offer_count => event.offer_count)
+  .event_offer_count= t(".offer_count_message" , :left_count=> (event.offer_count - event.offered_count), :offer_count => event.offer_count)
+  .event_offer_button= t(".offer")
+  .event_link_for_share= main_app.event_api_path( :ec => event.code , :uid => current_user.uid , :only_path => false ) if signed_in?
+=link_to t(".signup_notification") , iauth.signup_path unless signed_in?
+

@@ -1,0 +1,42 @@
+#main_title
+  %h1= t("users.account.title")
+#main_content
+  #side_bar= render :partial => "sidebar"
+  #current_content
+    #profile_wrapper
+      #form_wrapper
+        = semantic_form_for @user, :remote => @remote , :url => main_app.polymorphic_path( @user ) do |f|
+          = f.semantic_fields_for :avatar do|af|
+            = af.input :file , :as => :file , :label =>  t(".update_avatar")
+            = af.input :name , :as => :hidden , :value => "lipsum"
+          = f.input :nickname
+          = f.input :gender, :as => :select, :collection => ['Mme', 'Mle', 'M.'], :include_blank => false
+          = f.input :firstname
+          = f.input :lastname
+          = f.input :birthdate, :start_year => 1930, :end_year => Time.now.year - 10
+          = f.input :address
+          = f.inputs :id => 'zipcode_city' do
+            = f.input :zipcode
+            = f.input :city
+          = f.input :country
+          = f.input :is_opt_in , :label => t(".is_opt_in_notification" , :site_name => $site_name)
+          #recaptcha
+          = f.buttons do
+            = f.commit_button "Submit"
+        -#     , :button_html => { :type => "image", :src => "/assets/buttons/submit.png"}
+  .clear
+=content_for :head do
+  :javascript
+    $(function(){
+      $("li.error").mouseover(function(){
+        if(!$(this).children(".inline-errors").is(':visible')){
+          $(this).children(".inline-errors").fadeIn();
+        }
+      });
+      $("li.error").mouseout(function(){
+        if($(this).children(".inline-errors").is(':visible')){
+          $(this).children(".inline-errors").fadeOut();
+        }
+      });
+    });
+

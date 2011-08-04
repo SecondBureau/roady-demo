@@ -9,7 +9,9 @@ class CreateEvents < ActiveRecord::Migration
       t.text :description
       t.text :content
       t.integer :discount
-      t.integer :offer_count
+      t.integer :required_points
+      t.integer :offer_count , :default => 0
+      t.integer :offered_count , :default => 0
       t.timestamps
     end
   end

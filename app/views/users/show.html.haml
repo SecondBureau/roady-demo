@@ -1,0 +1,41 @@
+#main_title
+  %h1= t("users.account.title")
+#main_content
+  #side_bar= render :partial => "sidebar"
+  #current_content
+    #profile_wrapper
+      %ul
+        %li
+          %span avatar:
+          =image_tag current_user.avatar.file_url(:thumb)
+        %li
+          %span Nickname:
+          = current_user.nickname
+        %li
+          %span Gender:
+          = current_user.gender
+        %li
+          %span Firstname:
+          = current_user.firstname
+        %li
+          %span Lastname:
+          = current_user.lastname
+        %li
+          %span Birthdate:
+          = current_user.birthdate
+        %li
+          %span Address:
+          = current_user.address
+        %li
+          %span Zipcode:
+          = current_user.zipcode
+        %li
+          %span City:
+          = current_user.city
+        %li
+          %span Country:
+          = current_user.country
+    .edit_link
+      = link_to "Edit", main_app.edit_user_path(current_user)
+  .clear
+.clear

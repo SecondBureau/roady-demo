@@ -4,6 +4,9 @@ class Event < ActiveRecord::Base
   accepts_nested_attributes_for :products
   
   has_many :images , :class_name => "Image" , :as => "image_owner" , :dependent => :destroy
+  
+  has_many :event_tracks
+  
   accepts_nested_attributes_for :images , :allow_destroy => true
 
   before_validation :make_image
@@ -18,10 +21,23 @@ class Event < ActiveRecord::Base
   scope :unexpired , lambda{
     where("events.end_date > ?" , Time.current)
   }
+  scope :has_offer_left , lambda{
+    where("events.offered_count < events.offer_count")
+  }
+  
+  def offer_user!(user , event_track)
+    self.increment!(:offered_count , 1)
+    event_tracks.offer_code = Event.generate_offer_code(self , user)
+    event_tracks.save
+  end
   
   private
     def self.identify_attr
       "code"
+    end
+    
+    def self.generate_offer_code(event , user)
+      MD5.hexdigest( event.code + user.uid + Time.current.to_s )
     end
     
     def make_image
