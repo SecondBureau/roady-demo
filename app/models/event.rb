@@ -12,8 +12,8 @@ class Event < ActiveRecord::Base
   before_validation :make_image
   before_validation :lipsum
   
-  scope :of_locale_or_default , lambda{|l|
-    where("#{self.table_name}.id in (select b.id from #{self.table_name} b where b.#{identify_attr} = #{self.table_name}.#{identify_attr} and b.locale in ( :locale , :default_locale ) order by case when lower(locale) = :locale then 1 when lower(locale) = :default_locale then 2 else 3 end, locale limit 1)",
+  scope :of_locale_or_default , lambda{|*l|
+    where("#{self.table_name}.id in (select b.id from #{self.table_name} b where b.#{identify_attr} = #{self.table_name}.#{identify_attr} and b.locale in ( :locale , :default_locale ) order by case when lower(locale) in (:locale) then 1 when lower(locale) = :default_locale then 2 else 3 end, locale limit 1)",
       :locale => l ,
       :default_locale => $available_locales.first
     )
@@ -27,8 +27,8 @@ class Event < ActiveRecord::Base
   
   def offer_user!(user , event_track)
     self.increment!(:offered_count , 1)
-    event_tracks.offer_code = Event.generate_offer_code(self , user)
-    event_tracks.save
+    event_track.offer_code = Event.generate_offer_code(self , user)
+    event_track.save
   end
   
   private
@@ -37,7 +37,9 @@ class Event < ActiveRecord::Base
     end
     
     def self.generate_offer_code(event , user)
-      MD5.hexdigest( event.code + user.uid + Time.current.to_s )
+      MD5.hexdigest( event.code + 
+                     user.uid + 
+                     Time.current.to_s )
     end
     
     def make_image

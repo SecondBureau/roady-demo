@@ -22,16 +22,17 @@ class User < ActiveRecord::Base
   before_validation :make_uid
   
   def self.callback_invitee!( action , uid , event_code )
-    if invitor = find_by_uid(
-       uid) && event = Event.of_locale_or_default.unexpired.has_offer_left.find_by_code( event_code )
-      case action
+    if ( invitor = User.find_by_uid(uid) ) && 
+       ( event = Event.of_locale_or_default.unexpired.has_offer_left.find_by_code( event_code ) )
+       case action
         when :invite_registered_bonus
           EventTrack.update_bonus!( invitor , event , Setting.local_value("invite_registered_bonus").to_i )
         when :invite_unregister_bonus
           EventTrack.update_bonus!( invitor , event , Setting.local_value("invite_unregister_bonus").to_i )
         when :signup
           EventTrack.update_bonus!( invitor , event , Setting.local_value("invitee_signup_bonus").to_i )
-      end
+       end
+       invitor
     end
   end
   def email
@@ -42,6 +43,9 @@ class User < ActiveRecord::Base
     ([invitor] | invitees).compact
   end
   
+  def has_winned_event?(event)
+    EventTrack.winned.of_user(self.id).of_event(event.id).any?
+  end
   protected
   
   def make_uid

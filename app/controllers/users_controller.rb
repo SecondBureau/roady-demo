@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user = User.find_by_id(params[:id])
     if_is_visitee_then do|uid|
       if is_first_time_signup?
-        @invitor = User.callback_invitee!(:signup , uid)
+        @invitor = User.callback_invitee!(:signup , session[:invitor_uid] , session[:invited_ec])
         @user.invitor = User.where(:uid => uid ).first
         @user.save
       end
@@ -35,6 +35,7 @@ class UsersController < ApplicationController
 private
 
   def is_from_invited?
+    session[:invited_ec].present? &&
     session[:invitor_uid].present? &&
     User.exists?(:uid => session[:invitor_uid] )
   end
@@ -45,13 +46,13 @@ private
 
   def if_is_visitee_then
     if is_from_invited?
-      yield(session[:invitor_uid]) if block_given?
+      yield(session[:invitor_uid])
     end
   end
   
   def mark_session
     session[:visitee_signup_at] = Time.current.to_s
-    session[:invitor_uid] = nil
+    session[:invited_ec] = session[:invitor_uid] = nil
   end
 
   def redirect_root_unless_is_current_user

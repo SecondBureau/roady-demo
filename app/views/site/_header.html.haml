@@ -1,0 +1,15 @@
+#header_wrapper
+  #categories
+    %ul
+      %li= link_to "Home", main_app.root_path
+      - if signed_in? && current_user.is_of_role?("administrators")
+        %li= link_to "Admin", iadmin.root_path
+  #header_nav
+    %ul
+      - if signed_in?
+        %li.nav_menu= link_to "User Account", main_app.user_path(current_user)
+        %li.nav_menu= link_to t('logout') , iauth.logout_path
+      - else
+        %li.nav_menu= link_to t('login'), iauth.login_path
+        %li.nav_menu= link_to t('signup'), iauth.signup_path
+  .clear

@@ -12,17 +12,12 @@
 
 ActiveRecord::Schema.define(:version => 20110804043146) do
 
-  create_table "event_bonus", :force => true do |t|
-    t.integer "invitor_id"
-    t.integer "event_id"
-    t.integer "points"
-    t.string  "offer_code"
-  end
-
   create_table "event_tracks", :force => true do |t|
-    t.integer  "invitor_id"
+    t.integer  "user_id"
     t.integer  "event_id"
     t.integer  "points"
+    t.string   "offer_code"
+    t.datetime "winned_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

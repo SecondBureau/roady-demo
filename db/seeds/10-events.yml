@@ -9,6 +9,7 @@ test_event_1:
   description: lipsum
   content: lipsum
   offer_count: 30
+  required_points: 10
   
 test_event_2:
   uniq: [code , locale]
@@ -21,7 +22,7 @@ test_event_2:
   description: lipsum
   content: lipsum
   offer_count: 30
-  
+  required_points: 10
 test_event_3:
   uniq: [code , locale]
   code: test_event3
@@ -33,7 +34,7 @@ test_event_3:
   description: lipsum
   content: lipsum
   offer_count: 30
-  
+  required_points: 10
 test_event_4:
   uniq: [code , locale]
   code: test_event4
@@ -45,7 +46,7 @@ test_event_4:
   description: lipsum
   content: lipsum
   offer_count: 30
-  
+  required_points: 10
 test_event_5:
   uniq: [code , locale]
   code: test_event5
@@ -57,3 +58,4 @@ test_event_5:
   description: lipsum
   content: lipsum
   offer_count: 30
+  required_points: 10

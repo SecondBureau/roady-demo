@@ -9,6 +9,12 @@
     = yield :header
   %body
     #body_wrapper
+      -# for the site header
+      #header= render "site/header"
+
       -# for the main content
       #content= yield
       .clear
+
+      -# for the site footer
+      #footer= render "site/footer"

@@ -7,7 +7,7 @@ RorshackAdminUi::ADMINABLE_MODELS <<
     {:user => [:avatar , :account , :role , :invitees , :invitor] },
     {:product => [:images , :events]},
     {:event => [:images , :products]},
-    :event_track
+    {:event_track => [:user , :event]}
   ]
 RorshackAdminUi::ADMINABLE_MODELS.flatten!
 

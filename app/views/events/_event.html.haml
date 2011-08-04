@@ -1,11 +1,17 @@
 %li.event_item
   .event_title= link_to event.title, main_app.event_path(event.code)
-  .event_date
-    .event_start_date= "start: " + event.start_date.to_s(:db)
-    .event_end_date= raw "&nbsp;end:&nbsp;" + event.end_date.to_s(:db)
-  .event_description= event.description
+  .event_date= raw( "start: " + event.start_date.to_s(:db) + "&nbsp;end:&nbsp;" + event.end_date.to_s(:db) )
+  .event_description
+    =image_tag event.images.first.file_url(:thumb)
+    = event.description
   .event_offer_count= t(".offer_count_message" , :left_count=> (event.offer_count - event.offered_count), :offer_count => event.offer_count)
-  .event_offer_button= t(".offer")
-  .event_link_for_share= main_app.event_api_path( :ec => event.code , :uid => current_user.uid , :only_path => false ) if signed_in?
-=link_to t(".signup_notification") , iauth.signup_path unless signed_in?
-
+  -if signed_in?
+    %h3.required_points= t(".required_points" , :current_points => get_current_points_of_event(event) , :required_points => event.required_points) 
+    -if current_user.has_winned_event?(event)
+      %span.earn_points= t(".winned_event" , :offer_code => get_offer_code_of_event(event))
+    -else
+      %span.earn_points= t(".earn_points")
+      .event_link_for_share= main_app.event_api_path( :ec => event.code , :uid => current_user.uid , :only_path => false )
+  -else
+    =link_to t(".signup_notification") , iauth.signup_path 
+  .clear

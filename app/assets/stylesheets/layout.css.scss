@@ -1,0 +1,95 @@
+@import "variables";
+
+$padding: 10px 15px;
+
+h1{font-size: 20px; font-weight: bold; display: block;}
+
+@mixin nav_link{
+  a{display:block; text-decoration:none; padding: 5px 15px;  background: #e33f17; color:#FFFFFF; ; 
+    border-radius:15px; -moz-border-radius:15px;
+    &:hover{text-decoration:none;  background:$main_color; color:#000000;}
+  }
+}
+          
+$locale_shadow: 0px 2px 2px #511500;
+
+body{
+  background: #fff;
+
+  #body_wrapper{margin: 30px auto;width: $page_width; background:#FFFFFF; 
+    #header{padding:$padding;
+      #header_nav{float: right;
+        ul{list-style-type: none;
+          li.nav_menu{float: left; @include nav_link;
+            a{margin-left: 10px;}
+          }
+        }
+      }
+      #categories{float: left;
+        ul{list-style-type: none;
+          li{float: left; @include nav_link;
+            a{margin-right: 10px;}
+          }
+        }
+      }
+    }
+    #content{padding: 0px 15px;
+      #main_nav{padding:5px 0px; border-bottom: 1px solid #CCCCCC; margin-bottom:5px;
+        li{float:left;}
+      }
+      #main_content{width:970px; float:left; padding-bottom:10px;
+      }
+      .event_item{
+        line-height:18px;
+        font-size:12px;
+        list-style: none;
+        margin:10px;
+        padding:20px;
+        border-radius:15px; -moz-border-radius:15px;
+        box-shadow: 0px 0px 2px #000000; -moz-box-shadow:0px 0px 2px #000000; -webkit-box-shadow:0px 0px 2px #000000;
+        .event_description{
+          display:block; float:left;
+        }
+      }
+    }
+    #footer{border-top: 1px solid #CCCCCC; height: 40px; text-align:center; padding:$padding; margin:0px 10px;}
+    
+  }
+
+}
+
+#main_content{
+  #side_bar{width:190px; padding:5px; float:left; background:#009600; border-radius:6px; -moz-border-radius:6px;
+    .side_item{
+      h1{padding:10px 5px; color:#73FF73;}
+    }
+    ul{
+      li{
+        a{display:block; padding: 8px 5px; text-decoration: none; background:#EEEEEE;
+          &:hover{color:#111111; text-decoration:underline;}
+        }
+      }
+    }
+  }
+  #current_content{width:730px; margin:0px 10px; padding:0px 10px; float:left; background:#FFE6B9; border-radius:6px; -moz-border-radius:6px;}
+}
+
+
+form.formtastic{
+  li{padding: 5px 5px; list-style-type: none; background:#f6ffec ; margin-bottom: 3px;
+    label{display:block; padding: 5px 0px; font-size: 14px; font-weight: bold;}
+  }
+}
+
+#profile_wrapper{
+  li{padding: 10px 5px; list-style-type: none; background: #f6ffec; margin-bottom: 3px;
+    span{float:left; width: 200px; font-size: 14px; font-weight: bold;}
+  }
+}
+
+.edit_link{background: #FFFFFF; padding: 0px 10px 10px 0px; height:25px; margin: 10px 0px 20px 0px;
+  @include nav_link;
+  a{display:inline; float:right; margin-top: 5px;}
+}
+
+input{height: 23px; vertical-align: middle;}

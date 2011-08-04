@@ -3,8 +3,8 @@ class Setting < ActiveRecord::Base
   scope :available, lambda { where(:locale => $available_locales)}
   scope :include_admin_only, lambda { |i| i ? nil : where(:admin_only => false)}
   scope :search, lambda {|s| s.nil? ? nil : where("lower(name) like ? or lower(value) like ?", "%#{s.downcase}%", "%#{s.downcase}%")}
-  scope :of_locale_or_default , lambda{|l|
-    where("#{self.table_name}.id in (select b.id from #{self.table_name} b where b.#{identify_attr} = #{self.table_name}.#{identify_attr} and b.locale in ( :locale , :default_locale ) order by case when lower(locale) = :locale then 1 when lower(locale) = :default_locale then 2 else 3 end, locale limit 1)",
+  scope :of_locale_or_default , lambda{|*l|
+    where("#{self.table_name}.id in (select b.id from #{self.table_name} b where b.#{identify_attr} = #{self.table_name}.#{identify_attr} and b.locale in ( :locale , :default_locale ) order by case when lower(locale) in (:locale) then 1 when lower(locale) = :default_locale then 2 else 3 end, locale limit 1)",
       :locale => l ,
       :default_locale => $available_locales.first
     )
