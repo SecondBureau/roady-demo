@@ -1,7 +1,0 @@
-%ul
-  %li= link_to "Edit Profile", main_app.edit_user_path(current_user)
-  %li= link_to "Show Profile", main_app.user_path(current_user)
-  %li.friends
-    %h3= "#{current_user.friends.size} friends"
-%ul.events_winned
-  =render EventTrack.winned.of_user( current_user.id )
