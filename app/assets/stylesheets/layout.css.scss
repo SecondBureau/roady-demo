@@ -1,4 +1,17 @@
-@import "variables";
+
+$page_width: 1300px;
+$main_color: #FFA700;
+
+$debug_border: 1px solid #672800;
+
+@mixin debug{
+  border: $debug_border;
+}
+
+@mixin roundborder(){
+  border-radius:20px; 
+  -moz-border-radius:20px;
+}
 
 $padding: 10px 15px;
 

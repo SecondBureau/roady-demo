@@ -5,8 +5,8 @@ module RorshackAuthentication
               :presence => true,
               :format   => { :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i }
     
-    validates_presence_of :account  , :header_message => "Custom message one", :message => "Aucun utilisateur enregistré avec cet E-mail."
-   
+    validates_presence_of :account  , :header_message => "Custom message one"
+    
     def account
       nil if email.blank?
       Account.find_by_email(email)
