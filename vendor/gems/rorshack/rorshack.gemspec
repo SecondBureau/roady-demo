@@ -9,9 +9,24 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{johnson}]
-  s.date = %q{2011-07-07}
+  s.date = %q{2011-08-22}
   s.description = %q{rorshack}
   s.email = %q{johnson@secondbureau.com}
+  s.files = [
+    ".document",
+    ".rspec",
+    "Gemfile",
+    "Gemfile.lock",
+    "LICENSE.txt",
+    "README.rdoc",
+    "Rakefile",
+    "lib/rorshack.rb",
+    "lib/rorshack/version.rb",
+    "pkg/rorshack-1.0.0.gem",
+    "rorshack.gemspec",
+    "spec/rorshack_spec.rb",
+    "spec/spec_helper.rb"
+  ]
   s.require_paths = [%q{lib}]
   s.rubygems_version = %q{1.8.5}
   s.summary = %q{rorshack}
@@ -20,12 +35,26 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<rails>, ["= 3.1.0.rc5"])
+      s.add_runtime_dependency(%q<jeweler>, [">= 0"])
+      s.add_runtime_dependency(%q<rorshack-frontend>, [">= 0"])
+      s.add_runtime_dependency(%q<rorshack-support>, [">= 0"])
+      s.add_runtime_dependency(%q<rorshack-authentication>, [">= 0"])
+      s.add_runtime_dependency(%q<rorshack-permission>, [">= 0"])
+      s.add_runtime_dependency(%q<rorshack-admin-ui>, [">= 0"])
       s.add_runtime_dependency(%q<rorshack-frontend>, [">= 0"])
       s.add_runtime_dependency(%q<rorshack-admin-ui>, [">= 0"])
       s.add_runtime_dependency(%q<rorshack-support>, [">= 0"])
       s.add_runtime_dependency(%q<rorshack-authentication>, [">= 0"])
       s.add_runtime_dependency(%q<rorshack-permission>, [">= 0"])
     else
+      s.add_dependency(%q<rails>, ["= 3.1.0.rc5"])
+      s.add_dependency(%q<jeweler>, [">= 0"])
+      s.add_dependency(%q<rorshack-frontend>, [">= 0"])
+      s.add_dependency(%q<rorshack-support>, [">= 0"])
+      s.add_dependency(%q<rorshack-authentication>, [">= 0"])
+      s.add_dependency(%q<rorshack-permission>, [">= 0"])
+      s.add_dependency(%q<rorshack-admin-ui>, [">= 0"])
       s.add_dependency(%q<rorshack-frontend>, [">= 0"])
       s.add_dependency(%q<rorshack-admin-ui>, [">= 0"])
       s.add_dependency(%q<rorshack-support>, [">= 0"])
@@ -33,6 +62,13 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rorshack-permission>, [">= 0"])
     end
   else
+    s.add_dependency(%q<rails>, ["= 3.1.0.rc5"])
+    s.add_dependency(%q<jeweler>, [">= 0"])
+    s.add_dependency(%q<rorshack-frontend>, [">= 0"])
+    s.add_dependency(%q<rorshack-support>, [">= 0"])
+    s.add_dependency(%q<rorshack-authentication>, [">= 0"])
+    s.add_dependency(%q<rorshack-permission>, [">= 0"])
+    s.add_dependency(%q<rorshack-admin-ui>, [">= 0"])
     s.add_dependency(%q<rorshack-frontend>, [">= 0"])
     s.add_dependency(%q<rorshack-admin-ui>, [">= 0"])
     s.add_dependency(%q<rorshack-support>, [">= 0"])

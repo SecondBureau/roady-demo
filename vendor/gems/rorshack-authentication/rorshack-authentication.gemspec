@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{johnson of secondbureau}]
-  s.date = %q{2011-07-25}
+  s.date = %q{2011-08-22}
   s.description = %q{rorshack authentication}
   s.email = %q{johnson@secondbureau.com}
   s.files = [
@@ -54,6 +54,9 @@ Gem::Specification.new do |s|
     "app/views/rorshack_authentication/user_notification/password_reset_notification.text.haml",
     "app/views/rorshack_authentication/user_notification/registration_notification.html.haml",
     "app/views/rorshack_authentication/user_notification/registration_notification.text.haml",
+    "app/views/rorshack_authentication/users/_sidebar.html.haml",
+    "app/views/rorshack_authentication/users/edit.html.haml",
+    "app/views/rorshack_authentication/users/show.html.haml",
     "config/initializers/10-assets_pipeline.rb",
     "config/initializers/10-omniauth.rb",
     "config/initializers/10-rake_recapcha.rb",
@@ -75,7 +78,7 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<rails>, ["= 3.1.0.rc4"])
+      s.add_runtime_dependency(%q<rails>, ["= 3.1.0.rc5"])
       s.add_runtime_dependency(%q<sqlite3>, [">= 0"])
       s.add_runtime_dependency(%q<jeweler>, [">= 0"])
       s.add_runtime_dependency(%q<rorshack-support>, [">= 0"])
@@ -99,7 +102,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<rails>, [">= 3.1.0.rc4"])
       s.add_runtime_dependency(%q<rack-recaptcha>, [">= 0.6.0"])
     else
-      s.add_dependency(%q<rails>, ["= 3.1.0.rc4"])
+      s.add_dependency(%q<rails>, ["= 3.1.0.rc5"])
       s.add_dependency(%q<sqlite3>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
       s.add_dependency(%q<rorshack-support>, [">= 0"])
@@ -124,7 +127,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rack-recaptcha>, [">= 0.6.0"])
     end
   else
-    s.add_dependency(%q<rails>, ["= 3.1.0.rc4"])
+    s.add_dependency(%q<rails>, ["= 3.1.0.rc5"])
     s.add_dependency(%q<sqlite3>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
     s.add_dependency(%q<rorshack-support>, [">= 0"])

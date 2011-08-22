@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{johnson}]
-  s.date = %q{2011-07-13}
+  s.date = %q{2011-08-22}
   s.description = %q{frontend package of rorshack}
   s.email = %q{johnson@secondbureau.com}
   s.files = [
@@ -66,7 +66,7 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<rails>, [">= 0"])
+      s.add_runtime_dependency(%q<rails>, ["= 3.1.0.rc5"])
       s.add_runtime_dependency(%q<rake>, [">= 0"])
       s.add_runtime_dependency(%q<jeweler>, [">= 0"])
       s.add_runtime_dependency(%q<rorshack-support>, [">= 0"])
@@ -91,7 +91,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<ruby_parser>, [">= 0"])
       s.add_runtime_dependency(%q<kaminari>, ["= 0.12.4"])
     else
-      s.add_dependency(%q<rails>, [">= 0"])
+      s.add_dependency(%q<rails>, ["= 3.1.0.rc5"])
       s.add_dependency(%q<rake>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
       s.add_dependency(%q<rorshack-support>, [">= 0"])
@@ -117,7 +117,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<kaminari>, ["= 0.12.4"])
     end
   else
-    s.add_dependency(%q<rails>, [">= 0"])
+    s.add_dependency(%q<rails>, ["= 3.1.0.rc5"])
     s.add_dependency(%q<rake>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
     s.add_dependency(%q<rorshack-support>, [">= 0"])

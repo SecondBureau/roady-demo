@@ -1,5 +1,5 @@
 source :rubygems
-gem "rails"
+gem 'rails', '3.1.0.rc5'
 gem "rake"
 gem "jeweler"
 

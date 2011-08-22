@@ -1,6 +1,8 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.0.rc4'
+gem 'rails', '3.1.0.rc5'
+#use old version of arel to fix a bug in new 2.1.5 version
+gem "arel", "2.1.4"
 
 gem "rake"
 gem 'sqlite3'
@@ -8,8 +10,6 @@ gem 'sqlite3'
 # Asset template engines
 gem 'json'
 gem "sass" , "3.1.4"
-gem "sprockets" , "2.0.0.beta.10"
-gem 'sass-rails', "3.1.0.rc.4"
 gem 'coffee-script'
 gem 'uglifier'
 
@@ -28,7 +28,7 @@ gem "ruby-debug", :group => [:development, :test]
 
 gem 'heroku_s3_backup'
 gem 'heroku_san'
-gem 'heroku'
+gem 'heroku' , "2.4.0"
 
 gem "forgery" , "0.3.10"
 gem 'machinist'

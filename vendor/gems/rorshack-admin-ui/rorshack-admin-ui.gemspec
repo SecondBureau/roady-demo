@@ -9,11 +9,14 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{johnson of secondbureau}]
-  s.date = %q{2011-07-25}
+  s.date = %q{2011-08-22}
   s.description = %q{rorshack admin-ui}
   s.email = %q{johnson@secondbureau.com}
   s.files = [
     "app/assets/images/rorshack_admin_ui/down_arrow.gif",
+    "app/assets/images/rorshack_admin_ui/icons/delete.png",
+    "app/assets/images/rorshack_admin_ui/icons/details.png",
+    "app/assets/images/rorshack_admin_ui/icons/edit.png",
     "app/assets/images/rorshack_admin_ui/jquery.wysiwyg.bg.png",
     "app/assets/images/rorshack_admin_ui/jquery.wysiwyg.gif",
     "app/assets/images/rorshack_admin_ui/up_arrow.gif",
@@ -27,6 +30,7 @@ Gem::Specification.new do |s|
     "app/assets/javascripts/rorshack_admin_ui/admin.js",
     "app/assets/javascripts/rorshack_admin_ui/admin_ui.js",
     "app/assets/javascripts/rorshack_admin_ui/jwysiwyg.js",
+    "app/assets/stylesheets/_variables.css.scss",
     "app/assets/stylesheets/application.css",
     "app/assets/stylesheets/jquery.wysiwyg.css",
     "app/assets/stylesheets/rorshack_admin_ui/admin.css.scss",
@@ -41,8 +45,27 @@ Gem::Specification.new do |s|
     "app/helpers/rorshack_admin_ui/admin_ui_helper.rb",
     "app/helpers/rorshack_admin_ui/application_helper.rb",
     "app/uploaders/admin_images_uploader.rb",
-    "app/views/layouts/rorshack-admin-ui/application.html.erb",
+    "app/views/layouts/rorshack_admin_ui/admin_ui.html.haml",
+    "app/views/layouts/rorshack_admin_ui/application.html.erb",
+    "app/views/rorshack_admin_ui/admin/_footer.html.haml",
+    "app/views/rorshack_admin_ui/admin/_header.html.haml",
     "app/views/rorshack_admin_ui/admin/list.html.haml",
+    "app/views/rorshack_admin_ui/admin_ui/_collection_table.html.haml",
+    "app/views/rorshack_admin_ui/admin_ui/_form.html.haml",
+    "app/views/rorshack_admin_ui/admin_ui/_form_belongs_to.html.haml",
+    "app/views/rorshack_admin_ui/admin_ui/_form_body.html.haml",
+    "app/views/rorshack_admin_ui/admin_ui/_form_has_and_belongs_to_many.html.haml",
+    "app/views/rorshack_admin_ui/admin_ui/_form_has_many.html.haml",
+    "app/views/rorshack_admin_ui/admin_ui/_form_has_one.html.haml",
+    "app/views/rorshack_admin_ui/admin_ui/_preview_of_resource.html.haml",
+    "app/views/rorshack_admin_ui/admin_ui/_resource_detail.html.haml",
+    "app/views/rorshack_admin_ui/admin_ui/_search_collection.html.haml",
+    "app/views/rorshack_admin_ui/admin_ui/edit.html.haml",
+    "app/views/rorshack_admin_ui/admin_ui/index.html.haml",
+    "app/views/rorshack_admin_ui/admin_ui/index.js.erb",
+    "app/views/rorshack_admin_ui/admin_ui/new.html.haml",
+    "app/views/rorshack_admin_ui/admin_ui/show.html.haml",
+    "app/views/rorshack_admin_ui/admin_ui/show.js.erb",
     "config/initializers/10-carmen.rb",
     "config/initializers/10-carrierwave.rb",
     "config/initializers/admin_ui_scss.rb",
@@ -79,7 +102,7 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<rails>, ["= 3.1.0.rc4"])
+      s.add_runtime_dependency(%q<rails>, ["= 3.1.0.rc5"])
       s.add_runtime_dependency(%q<jquery-rails>, [">= 0"])
       s.add_runtime_dependency(%q<rake>, [">= 0"])
       s.add_runtime_dependency(%q<jeweler>, [">= 0"])
@@ -106,7 +129,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<kaminari>, [">= 0"])
       s.add_runtime_dependency(%q<carmen>, [">= 0"])
     else
-      s.add_dependency(%q<rails>, ["= 3.1.0.rc4"])
+      s.add_dependency(%q<rails>, ["= 3.1.0.rc5"])
       s.add_dependency(%q<jquery-rails>, [">= 0"])
       s.add_dependency(%q<rake>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
@@ -134,7 +157,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<carmen>, [">= 0"])
     end
   else
-    s.add_dependency(%q<rails>, ["= 3.1.0.rc4"])
+    s.add_dependency(%q<rails>, ["= 3.1.0.rc5"])
     s.add_dependency(%q<jquery-rails>, [">= 0"])
     s.add_dependency(%q<rake>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
