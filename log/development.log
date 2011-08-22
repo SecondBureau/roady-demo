@@ -5422,3 +5422,974 @@ Migrating to CreateEventsProducts (20110801050319)
   [1m[35m (0.1ms)[0m  SELECT 1 FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."persistence_token" = '1b4f30ef6ee20929038f87a2b3a86816f8b0e2e425c47210607457c8c810d6511b91b03641b42817cdd1990a0b35ffdd179a8a17af03ece85b622fff3b51aec4' LIMIT 1
   [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "rorshack_authentication_accounts" ("created_at", "crypted_password", "email", "password_salt", "perishable_token", "persistence_token", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Mon, 01 Aug 2011 11:36:40 CEST +02:00], ["crypted_password", "fecf48bb99a76594a0f24a57251524468f5e1f56cd9b187b6006a973008327052b080b087cf18751be3a9633faa95b7d9d8a6a5e67a2383cff6125ca615d4619"], ["email", "amin@secondbureau.com"], ["password_salt", "OdMBJNvIZ1NR9zIRWhf"], ["perishable_token", "HgOtwqP6N2yzIuE2oKyZ"], ["persistence_token", "1b4f30ef6ee20929038f87a2b3a86816f8b0e2e425c47210607457c8c810d6511b91b03641b42817cdd1990a0b35ffdd179a8a17af03ece85b622fff3b51aec4"], ["updated_at", Mon, 01 Aug 2011 11:36:40 CEST +02:00], ["user_id", 5]]
   [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 5 LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (71.0ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (40.9ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to InitialAuthenticationTables (20110801035506)
+  [1m[35m (0.3ms)[0m  CREATE TABLE "rorshack_authentication_authentications" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "account_id" integer, "provider" varchar(255), "access_token" varchar(255), "uid" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.2ms)[0m  [1mCREATE TABLE "rorshack_authentication_accounts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "email" varchar(255) NOT NULL, "crypted_password" varchar(128) DEFAULT '' NOT NULL, "password_salt" varchar(255) DEFAULT '' NOT NULL, "persistence_token" varchar(255), "perishable_token" varchar(255) DEFAULT '' NOT NULL, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("rorshack_authentication_authentications")
+  [1m[36m (0.1ms)[0m  [1mCREATE INDEX "index_authentications_on_account_id" ON "rorshack_authentication_authentications" ("account_id")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("rorshack_authentication_accounts")
+  [1m[36m (0.2ms)[0m  [1mCREATE UNIQUE INDEX "index_accounts_on_email" ON "rorshack_authentication_accounts" ("email")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20110801035506')
+Migrating to CreateUsers (20110801035739)
+  [1m[36m (0.3ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nickname" varchar(255), "firstname" varchar(255), "lastname" varchar(255), "gender" varchar(255), "birthdate" date, "address" varchar(255), "zipcode" varchar(255), "city" varchar(255), "country" varchar(255) DEFAULT 'France', "invitor_id" integer, "uid" varchar(255), "is_opt_in" boolean, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20110801035739')
+Migrating to CreateRoles (20110801040529)
+  [1m[36m (0.3ms)[0m  [1mCREATE TABLE "roles" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "is_default_role" boolean DEFAULT 'f' NOT NULL, "permissions" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.3ms)[0m  ALTER TABLE "users" ADD "role_id" integer
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.1ms)[0m  CREATE INDEX "index_users_on_role_id" ON "users" ("role_id")
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20110801040529')[0m
+Migrating to CreateProducts (20110801042438)
+  [1m[35m (0.3ms)[0m  CREATE TABLE "products" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "content" text, "description" text, "locale" varchar(255) DEFAULT 'fr', "code" varchar(255), "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20110801042438')[0m
+Migrating to CreateImages (20110801042554)
+  [1m[35m (0.2ms)[0m  CREATE TABLE "images" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "image_owner_id" integer, "image_owner_type" varchar(255), "file" varchar(255), "created_at" datetime, "updated_at" datetime, "name" varchar(255)) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20110801042554')[0m
+Migrating to CreatePages (20110801043320)
+  [1m[35m (0.2ms)[0m  CREATE TABLE "pages" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20110801043320')[0m
+Migrating to CreateSettings (20110801043656)
+  [1m[35m (0.3ms)[0m  CREATE TABLE "settings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "value" varchar(255), "locale" varchar(255) DEFAULT 'fr', "tooltip" varchar(255), "admin_only" boolean DEFAULT 'f' NOT NULL, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("settings")[0m
+  [1m[35m (0.2ms)[0m  CREATE UNIQUE INDEX "index_settings_on_name_and_locale" ON "settings" ("name", "locale")
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20110801043656')[0m
+Migrating to CreateEvents (20110801050219)
+  [1m[35m (0.3ms)[0m  CREATE TABLE "events" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "code" varchar(255), "start_date" datetime, "end_date" datetime, "locale" varchar(255) DEFAULT 'fr', "title" varchar(255), "description" text, "content" text, "discount" integer, "required_points" integer, "offer_count" integer DEFAULT 0, "offered_count" integer DEFAULT 0, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20110801050219')[0m
+Migrating to CreateEventsProducts (20110801050319)
+  [1m[35m (0.2ms)[0m  CREATE TABLE "events_products" ("event_id" integer, "product_id" integer) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20110801050319')[0m
+Migrating to CreateEventTracks (20110804043146)
+  [1m[35m (0.3ms)[0m  CREATE TABLE "event_tracks" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "event_id" integer, "points" integer, "offer_code" varchar(255), "winned_at" datetime, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20110804043146')[0m
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("event_tracks")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("events")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("events_products")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("images")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("pages")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("products")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("roles")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("rorshack_authentication_accounts")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_accounts_on_email')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("rorshack_authentication_authentications")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_authentications_on_account_id')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("settings")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_settings_on_name_and_locale')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_users_on_role_id')
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35mEvent Load (0.2ms)[0m  SELECT "events".* FROM "events" WHERE "events"."locale" = 'fr' AND "events"."code" = 'test_event1' LIMIT 1
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "events" ("code", "content", "created_at", "description", "discount", "end_date", "locale", "offer_count", "offered_count", "required_points", "start_date", "title", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["code", "test_event1"], ["content", "Purus accums. Facilisis dolor donec ipsum nibh tortor, digniss tellus accumsan commodo rutrum viverra mauris dis nec mollis parturient penatibus, digniss lectus sem suspendisse fau. Netus quisque, leo imperdiet a. Turpis natoque mattis dapibus integer, urna, velit lobortis a ultri in fringilla curae; eget primis ull convallis convallis sociosqu accums parturient. Duis cubilia volutpat elit fames ipsum ultri, ultrices. Feugiat. Eleifend justo. Aptent mauris tortor eleifend semper. Scelerisque dictumst tor. Ad sollicitudin mus enim imperdiet ultri posuere hendrerit metus. Risus, massa blandit litora, condimentum dictumst justo massa dictumst ma taciti turpis faucibus nec. Leo, semper consectetur praesent porttitor. Accums dictumst dictum praesent senectus, eget inceptos vel tincidunt ornare tortor convallis, vitae volutpat porta primis bibendum venenatis suscipit laoreet dignissim, massa at faucibu praesent. Dapibus aliquet. Rhoncus, luctus adipiscing p. Erat turpis augue sed ull magna. Dignissim augue a nunc dictumst. Sociis. Convallis adipiscing scelerisque vehicula curae; euismod adipiscing sodales faucibu."], ["created_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00], ["description", "Sociis cubilia fusce tempor sodales quis nunc parturient faucib, etiam sem sodales etiam netus suspendisse curabitur elit li nulla proin condimentum odio ante condimentum, sit diam. Ridiculus penatibus. Lobortis gravida aptent scelerisque adipiscing eget tincidunt."], ["discount", 10], ["end_date", Tue, 04 Oct 2011 13:07:49 CEST +02:00], ["locale", "fr"], ["offer_count", 30], ["offered_count", 0], ["required_points", 10], ["start_date", Sun, 04 Sep 2011 13:07:49 CEST +02:00], ["title", "Faucibus eget dictumst. Molestie primis tempor taciti."], ["updated_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00]]
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00], ["file", "default_event_logo.png"], ["image_owner_id", 1], ["image_owner_type", "Event"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00]]
+  [1m[36mEvent Load (0.2ms)[0m  [1mSELECT "events".* FROM "events" WHERE "events"."locale" = 'fr' AND "events"."code" = 'test_event2' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "events" ("code", "content", "created_at", "description", "discount", "end_date", "locale", "offer_count", "offered_count", "required_points", "start_date", "title", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  [["code", "test_event2"], ["content", "Se phasellus, ornare volutpat viverra consequat, rhoncus, taciti euismod. Aptent porttitor eleifend a sociosqu tincidunt leo feugiat li sem. Aliquam a rhoncus lorem porta velit. In. Mus ullamcorper, tincidunt primis mi. Sagittis. Lobortis, risus. Lac arcu dignissim. Quam ut fringilla. Pulvinar. Ma potenti. Scelerisque ultri. Iaculis habitasse tincidunt. Pretium montes tincid tincidunt condimentum bibendum, convalli mi, consectetur accums eros rutrum vestibulum natoque velit. Sollicitudin conubia tincid diam nostra laoreet, vestibulum eget lorem, mollis volutpat platea. Venenatis ultricies suspendisse eget. Auctor ultri volutpat tempor, vulputate ligula montes taciti sapien imperdiet quis turpis nostra sagittis netus, rhoncus lacus metus lobortis facilisi fermentum amet platea malesuada. Maecenas. Nam pretium eros metus nostra, tempor. Risus lectus molestie aenean maecenas suscipit sit leo, duis nullam quisque aptent congue habitant pellentesque eget condimentum convalli fames sem libero sociosqu. Neque. Bibendum eget sed dis aliquam nascetur purus nascetur sagittis pellentesque eleifend dui dis interdum libero duis curae; vulputate. Lectus quis. Ad aptent nunc."], ["created_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00], ["description", "Euismod lac. P sem aliquam potenti malesuada libero sagittis non sapien eu dui habitant. Curabitur congue. Himenaeos adipiscing velit enim dictum. Curae; adipiscing viverra tor litora accums, lectus. Sodales, libero erat, in. Ul molestie pretium dolor. Vehicula."], ["discount", 20], ["end_date", Tue, 04 Oct 2011 13:07:49 CEST +02:00], ["locale", "fr"], ["offer_count", 30], ["offered_count", 0], ["required_points", 10], ["start_date", Sun, 04 Sep 2011 13:07:49 CEST +02:00], ["title", "Ultrices nam eu tor etiam tor."], ["updated_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00]]
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00], ["file", "default_event_logo.png"], ["image_owner_id", 2], ["image_owner_type", "Event"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00]]
+  [1m[35mEvent Load (0.2ms)[0m  SELECT "events".* FROM "events" WHERE "events"."locale" = 'fr' AND "events"."code" = 'test_event3' LIMIT 1
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "events" ("code", "content", "created_at", "description", "discount", "end_date", "locale", "offer_count", "offered_count", "required_points", "start_date", "title", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["code", "test_event3"], ["content", "Consequat accums euismod, quam netus se vitae dapibus posuere phasellus. Congue. Sit ridiculus rhoncus eros. Vivamus est vehicula urna et feugiat tincidunt scelerisque pulvinar lacinia cum. Porttitor. Praesent sociis hac ante donec lorem nibh maecenas molestie pulvinar a molestie. Donec amet tincid jus. Maecenas. Primis phasellus condimentum ma posuere, ad porta amet suspendisse quis. Nostra at proin cursus. Per nam curabitur dapibus scelerisque. Platea magna pellentesque. Ma bibendum sociis. Aenean. In eu etiam platea, litora rutrum bibendum lobortis, vel pretium phasellus nam id al digniss. Interdum volutpat penatibus eleifend sagittis, lacinia quisque massa ipsum nam vitae proin dictumst lectus. Magnis pretium nibh convalli. Tincid mattis facilisi. In pulvinar turpis mattis hendrerit molestie porta varius jus, ac justo aptent ut donec. Lac torquent neque. Accumsan donec malesuada montes ultri nam sollicitudin in penatibus fau aptent integer pellentesque dignissim viverra. Amet torquent senectus ac. Massa, justo nam. Ridiculus nulla fringilla dolor ullamcorper. Habitasse viverra quisque primis el."], ["created_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00], ["description", "Natoque tellus. Fermentum. Accums lobortis. Ornare tincidunt, varius accumsan ultricies jus luctus tempor volutpat. Nisi fau lectus sociosqu parturient eros nisl sociis. Natoque faucibus vivamus, curabitur ut commodo nisi adipiscing sed maecenas viverra tempor nibh habitant congue iaculis erat."], ["discount", 30], ["end_date", Tue, 04 Oct 2011 13:07:49 CEST +02:00], ["locale", "fr"], ["offer_count", 30], ["offered_count", 0], ["required_points", 10], ["start_date", Sun, 04 Sep 2011 13:07:49 CEST +02:00], ["title", "Senectus, curabitur a elit mi blandit aliquet, libero."], ["updated_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00]]
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00], ["file", "default_event_logo.png"], ["image_owner_id", 3], ["image_owner_type", "Event"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00]]
+  [1m[36mEvent Load (0.2ms)[0m  [1mSELECT "events".* FROM "events" WHERE "events"."locale" = 'fr' AND "events"."code" = 'test_event4' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "events" ("code", "content", "created_at", "description", "discount", "end_date", "locale", "offer_count", "offered_count", "required_points", "start_date", "title", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  [["code", "test_event4"], ["content", "Mollis nisi lobortis tellus et, etiam dictum accums himenaeos nec pellentesque turpis, varius donec. Lobortis per accums se, id. Pharetra accumsan habitasse felis velit cubilia. Ultri cubilia egestas sociosqu platea viverra justo non sem, diam feugiat ultrices jus. Purus jus faucibu egestas penatibus dignissim libero. Consectetur inceptos, dui, accums conubia leo cubilia convalli donec ut duis at mattis nam. Magnis senectus tincid torquent, vel litora duis amet. Congue convalli sem, nunc. Ac. Quis habitant in, nam el dapibus. Curae; at nibh, etiam facilisi ul. Jus habitasse consequat ridiculus mollis proin tempus, duis pharetra ultrices parturient penatibus quam cubilia magnis consequat ante platea condimentum scelerisque. Digniss congue. Adipiscing. At cum hac elementum ull tempus, semper leo vulputate molestie class himenaeos li pharetra porta in leo vel semper aptent. Pellentesque rutrum praesent purus pharetra gravida amet, ultri vehicula molestie et. Ma morbi aliquet arcu, bibendum porttitor. Morbi tincidunt ligula nostra. Nostra inceptos cum vehicula lacus consectetur integer ante interdum. Habitant."], ["created_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00], ["description", "Parturient ante erat inceptos leo curabitur metus lacus potenti fau fusce euismod fringilla aliquam el eros enim justo in facilisis ligula. Inceptos sed pulvinar, varius facilisi facilisis dictumst. Euismod potenti elit."], ["discount", 40], ["end_date", Tue, 04 Oct 2011 13:07:49 CEST +02:00], ["locale", "fr"], ["offer_count", 30], ["offered_count", 0], ["required_points", 10], ["start_date", Sun, 04 Sep 2011 13:07:49 CEST +02:00], ["title", "Eu scelerisque. Suspendisse litora. Varius diam augue tor. Tempor platea."], ["updated_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00]]
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00], ["file", "default_event_logo.png"], ["image_owner_id", 4], ["image_owner_type", "Event"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:07:49 CEST +02:00]]
+  [1m[35mEvent Load (0.2ms)[0m  SELECT "events".* FROM "events" WHERE "events"."locale" = 'fr' AND "events"."code" = 'test_event5' LIMIT 1
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "events" ("code", "content", "created_at", "description", "discount", "end_date", "locale", "offer_count", "offered_count", "required_points", "start_date", "title", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["code", "test_event5"], ["content", "Euismod p accums ad magna nam nullam. Purus dictumst vel. Ut risus orci. Sed aenean elit dis. Cras hac amet facilisi. Ultricies curabitur. Mattis quisque ad. Faucibu dis posuere vel morbi. Ut phasellus. Adipiscing faucibus pellentesque sit pulvinar, convallis. Erat vulputate ullamcorper euismod tristique hendrerit blandit fermentum ul. Lobortis feugiat eros consequat, metus lectus faucibus non, netus pretium. Lac nisi arcu primis non est ut aenean enim magna cum magnis facilisi commodo magna ac magnis fames curabitur vehicula se massa arcu tor fermentum potenti. Vehicula primis quis platea ante digniss sociis elit elementum cum vestibulum, venenatis rutrum sollicitudin justo eros pulvinar tincid sapien turpis magnis suspendisse. Ul, etiam. Habitant dis, nullam euismod iaculis ut commodo sed ullamcorper. Nisl, nam malesuada molestie fringilla enim eleifend aliquam orci cursus torquent. Velit, hac consequat facilisis sociosqu in cubilia tor nunc. Donec metus malesuada varius penatibus hendrerit viverra hendrerit vitae lacinia scelerisque commodo mattis nunc imperdiet. P."], ["created_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["description", "Sociis neque magna ultrices bibendum aliquam. Ridiculus euismod blandit, felis. Proin convallis quam. Interdum torquent pulvinar. Proin. Accums, dolor pretium iaculis porttitor lacus faucib at faucibu. Pulvinar egestas. Himenaeos molestie lectus. Se proin diam leo interdum hac."], ["discount", 50], ["end_date", Tue, 04 Oct 2011 13:07:49 CEST +02:00], ["locale", "fr"], ["offer_count", 30], ["offered_count", 0], ["required_points", 10], ["start_date", Sun, 04 Sep 2011 13:07:49 CEST +02:00], ["title", "Neque laoreet ultricies pulvinar luctus. Ad."], ["updated_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00]]
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["file", "default_event_logo.png"], ["image_owner_id", 5], ["image_owner_type", "Event"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00]]
+  [1m[36mRole Load (0.2ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "roles" ("created_at", "is_default_role", "name", "permissions", "updated_at") VALUES (?, ?, ?, ?, ?)  [["created_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["is_default_role", false], ["name", "guests"], ["permissions", "--- \n:messages: 1\n:product: 2\n:category: 2\n"], ["updated_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00]]
+  [1m[36mRole Load (0.1ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'administrators' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "roles" ("created_at", "is_default_role", "name", "permissions", "updated_at") VALUES (?, ?, ?, ?, ?)  [["created_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["is_default_role", false], ["name", "administrators"], ["permissions", "--- \n:image: 31\n:page: 31\n:message: 31\n:role: 31\n:product: 31\n:setting: 31\n:category: 31\n:user: 31\n"], ["updated_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00]]
+  [1m[36mRole Load (0.1ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'users' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "roles" ("created_at", "is_default_role", "name", "permissions", "updated_at") VALUES (?, ?, ?, ?, ?)  [["created_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["is_default_role", true], ["name", "users"], ["permissions", "--- \n:messages: 3\n:product: 2\n:category: 2\n:user: 7\n"], ["updated_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00]]
+  [1m[36mSetting Load (0.1ms)[0m  [1mSELECT "settings".* FROM "settings" WHERE "settings"."locale" = 'fr' AND "settings"."name" = 'address' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT 1 FROM "settings" WHERE ("settings"."name" = 'address' AND "settings"."locale" = 'fr') LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "settings" ("admin_only", "created_at", "locale", "name", "tooltip", "updated_at", "value") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["admin_only", false], ["created_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["locale", "fr"], ["name", "address"], ["tooltip", "Adresse postale sur une seule ligne"], ["updated_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["value", "lipsum"]]
+  [1m[35mSetting Load (0.2ms)[0m  SELECT "settings".* FROM "settings" WHERE "settings"."locale" = 'fr' AND "settings"."name" = 'no_reply_sender' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT 1 FROM "settings" WHERE ("settings"."name" = 'no_reply_sender' AND "settings"."locale" = 'fr') LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "settings" ("admin_only", "created_at", "locale", "name", "tooltip", "updated_at", "value") VALUES (?, ?, ?, ?, ?, ?, ?)  [["admin_only", false], ["created_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["locale", "fr"], ["name", "no_reply_sender"], ["tooltip", nil], ["updated_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["value", "no-reply@secondbureau.com"]]
+  [1m[36mSetting Load (0.2ms)[0m  [1mSELECT "settings".* FROM "settings" WHERE "settings"."locale" = 'fr' AND "settings"."name" = 'invite_registered_bonus' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT 1 FROM "settings" WHERE ("settings"."name" = 'invite_registered_bonus' AND "settings"."locale" = 'fr') LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "settings" ("admin_only", "created_at", "locale", "name", "tooltip", "updated_at", "value") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["admin_only", false], ["created_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["locale", "fr"], ["name", "invite_registered_bonus"], ["tooltip", "invite_registered_bonus"], ["updated_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["value", 2]]
+  [1m[35mSetting Load (0.2ms)[0m  SELECT "settings".* FROM "settings" WHERE "settings"."locale" = 'fr' AND "settings"."name" = 'invite_unregister_bonus' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT 1 FROM "settings" WHERE ("settings"."name" = 'invite_unregister_bonus' AND "settings"."locale" = 'fr') LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "settings" ("admin_only", "created_at", "locale", "name", "tooltip", "updated_at", "value") VALUES (?, ?, ?, ?, ?, ?, ?)  [["admin_only", false], ["created_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["locale", "fr"], ["name", "invite_unregister_bonus"], ["tooltip", "invite_unregister_bonus"], ["updated_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["value", 1]]
+  [1m[36mSetting Load (0.2ms)[0m  [1mSELECT "settings".* FROM "settings" WHERE "settings"."locale" = 'fr' AND "settings"."name" = 'phone' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT 1 FROM "settings" WHERE ("settings"."name" = 'phone' AND "settings"."locale" = 'fr') LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "settings" ("admin_only", "created_at", "locale", "name", "tooltip", "updated_at", "value") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["admin_only", false], ["created_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["locale", "fr"], ["name", "phone"], ["tooltip", "Téléphone affiché en home page"], ["updated_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["value", "0102030405"]]
+  [1m[35mSetting Load (0.2ms)[0m  SELECT "settings".* FROM "settings" WHERE "settings"."locale" = 'fr' AND "settings"."name" = 'invitee_signup_bonus' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT 1 FROM "settings" WHERE ("settings"."name" = 'invitee_signup_bonus' AND "settings"."locale" = 'fr') LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "settings" ("admin_only", "created_at", "locale", "name", "tooltip", "updated_at", "value") VALUES (?, ?, ?, ?, ?, ?, ?)  [["admin_only", false], ["created_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["locale", "fr"], ["name", "invitee_signup_bonus"], ["tooltip", "invitee_signup_bonus"], ["updated_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["value", 20]]
+  [1m[36mSetting Load (0.2ms)[0m  [1mSELECT "settings".* FROM "settings" WHERE "settings"."locale" = 'fr' AND "settings"."name" = 'keywords' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT 1 FROM "settings" WHERE ("settings"."name" = 'keywords' AND "settings"."locale" = 'fr') LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "settings" ("admin_only", "created_at", "locale", "name", "tooltip", "updated_at", "value") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["admin_only", false], ["created_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["locale", "fr"], ["name", "keywords"], ["tooltip", nil], ["updated_at", Thu, 04 Aug 2011 13:07:50 CEST +02:00], ["value", "Second Bureau, marketing digital"]]
+  [1m[35mProduct Load (0.1ms)[0m  SELECT "products".* FROM "products" WHERE "products"."locale" = 'fr' AND "products"."code" = 'test_product1' LIMIT 1
+  [1m[36mEvent Load (0.2ms)[0m  [1mSELECT "events".* FROM "events" WHERE "events"."code" = 'test_event1'[0m
+  [1m[35mEvent Load (0.2ms)[0m  SELECT "events".* FROM "events" WHERE "events"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "images" WHERE "images"."image_owner_id" = 1 AND "images"."image_owner_type" = 'Event'[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "products" ("code", "content", "created_at", "description", "locale", "title", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)  [["code", "test_product1"], ["content", "Varius suscipit placerat habitasse. Nisi. Enim nisi suspendisse gravida phasellus. Blandit per mollis habitasse adipiscing. Sapien at. Massa tempus se. A habitant himenaeos aptent. Eleifend sapien digniss posuere. Morbi nam proin hendrerit augue maecenas volutpat ac facilisis etiam, maecenas euismod sapien a congue. Li non. Dui egestas non eleifend hendrerit arcu vulputate jus dictum sagittis dictum ridiculus lacus ultri eleifend. Mattis augue et. Hendrerit, eros nibh aenean lacus molestie rutrum, volutpat ut al lacus. Vivamus dictum lacus integer cubilia conubia ultri metus aliquam vivamus eu faucibus accums augue ornare venenatis faucibus. Euismod cum accumsan maecenas nec sem eu vivamus praesent hac magna habitant p. Rhoncus. Nam quisque, al suscipit, ma at, gravida nam eros digniss commodo diam taciti. A dictum ligula mi taciti enim, mollis lectus quam proin nam viverra sagittis proin eget lacinia fames enim enim aptent ac auctor elit habitant scelerisque facilisi sodales turpis felis. Aliquet arcu tincid etiam. Cubilia cum."], ["created_at", Thu, 04 Aug 2011 13:07:51 CEST +02:00], ["description", "Cubilia cras vitae potenti, proin vestibulum. Ipsum ultrices, vehicula. Ma sem tortor. Justo vel ul, luctus. Quisque suspendisse ultrices, natoque nullam porta p. Orci convallis. Nostra, montes. Semper fusce id, rhoncus curae; potenti vestibulum rhoncus ridiculus eros ull tristique."], ["locale", "fr"], ["title", "Torquent iaculis et mollis facilisi pellentesque."], ["updated_at", Thu, 04 Aug 2011 13:07:51 CEST +02:00]]
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "events_products" ("product_id", "event_id") VALUES (1, 1)[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", Thu, 04 Aug 2011 13:07:51 CEST +02:00], ["file", "default_product_logo.png"], ["image_owner_id", 1], ["image_owner_type", "Product"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:07:51 CEST +02:00]]
+  [1m[36mProduct Load (0.2ms)[0m  [1mSELECT "products".* FROM "products" WHERE "products"."locale" = 'fr' AND "products"."code" = 'test_product2' LIMIT 1[0m
+  [1m[35mEvent Load (0.1ms)[0m  SELECT "events".* FROM "events" WHERE "events"."code" = 'test_event2'
+  [1m[36mEvent Load (0.1ms)[0m  [1mSELECT "events".* FROM "events" WHERE "events"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "images" WHERE "images"."image_owner_id" = 2 AND "images"."image_owner_type" = 'Event'
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "products" ("code", "content", "created_at", "description", "locale", "title", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["code", "test_product2"], ["content", "Lacinia convallis etiam ornare at nostra dictumst lorem. Metus venenatis magnis, tristique a aptent convallis nulla dictum pulvinar montes cum elementum nisi diam ullamcorper, consequat nulla suscipit imperdiet libero eros felis sollicitudin ridiculus donec id metus eros. Lorem ultri aenean arcu nostra elit dignissim suscipit ul cum congue primis scelerisque. Quisque justo convalli, fames p. Lectus tincidunt fermentum fringilla. Aenean pellentesque placerat bibendum quisque. Velit. Viverra luctus rhoncus cursus inceptos ornare tristique. Etiam cum. Faucibus odio cubilia molestie. Metus nascetur. Facilisi enim in. Lectus. Magnis ma nam. Porta. Curae; in potenti tempor risus dictum sem. Curabitur tristique tristique iaculis. Feugiat congue senectus vestibulum scelerisque congue diam primis dictumst dis diam elit sapien, arcu mattis amet, lac commodo facilisi ul. Gravida quis ut nostra eros blandit eget parturient in fusce, metus li se. Accums bibendum nulla semper pulvinar ut urna, ull pretium nec montes, curabitur, fusce nam imperdiet mauris ullamcorper litora cursus condimentum mi aliquet."], ["created_at", Thu, 04 Aug 2011 13:07:52 CEST +02:00], ["description", "Bibendum faucibus tempor gravida. Faucibu nunc cursus bibendum quam ad penatibus, interdum vehicula laoreet. Ridiculus, libero ornare, curae; dictum mi platea. Rutrum. Fau nunc. Facilisi tortor, lorem. Semper venenatis libero cum. Curabitur."], ["locale", "fr"], ["title", "Porttitor senectus parturient non facilisis integer ornare."], ["updated_at", Thu, 04 Aug 2011 13:07:52 CEST +02:00]]
+  [1m[35m (0.1ms)[0m  INSERT INTO "events_products" ("event_id", "product_id") VALUES (2, 2)
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", Thu, 04 Aug 2011 13:07:52 CEST +02:00], ["file", "default_product_logo.png"], ["image_owner_id", 2], ["image_owner_type", "Product"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:07:52 CEST +02:00]]
+  [1m[35mProduct Load (0.2ms)[0m  SELECT "products".* FROM "products" WHERE "products"."locale" = 'fr' AND "products"."code" = 'test_product3' LIMIT 1
+  [1m[36mEvent Load (0.1ms)[0m  [1mSELECT "events".* FROM "events" WHERE "events"."code" = 'test_event3'[0m
+  [1m[35mEvent Load (0.1ms)[0m  SELECT "events".* FROM "events" WHERE "events"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "images" WHERE "images"."image_owner_id" = 3 AND "images"."image_owner_type" = 'Event'[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "products" ("code", "content", "created_at", "description", "locale", "title", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)  [["code", "test_product3"], ["content", "Arcu quam gravida. Mattis nibh sodales nulla leo justo. Vehicula. Digniss curae; facilisi gravida pharetra semper feugiat diam. Molestie felis. Facilisi curabitur. Quam placerat. Volutpat nisi risus jus. Cum, ull class elit, nam li montes euismod ul integer facilisi class faucibus. Luctus non faucibu. Cursus proin erat ligula leo dignissim etiam faucibu nunc massa aenean tor sed consectetur arcu. Ultri quisque inceptos auctor euismod. Vivamus, curae; curae; nec et magna. Fringilla lac cursus sed litora fames tor tempor penatibus. Erat nec, convallis commodo. Lorem. Ut, potenti vehicula quisque lectus, ipsum tortor. Phasellus semper scelerisque pretium amet tortor parturient imperdiet dis mus praesent vel facilisis, ultricies eget mollis vestibulum ridiculus porttitor digniss mus rhoncus vehicula aliquam augue mauris imperdiet litora iaculis nullam consectetur amet. Pellentesque potenti magnis sit urna molestie lobortis. Non. Tincid senectus consectetur volutpat sapien dictumst. Ultrices cubilia pharetra accums luctus vel. Congue urna vestibulum sollicitudin. Et orci imperdiet."], ["created_at", Thu, 04 Aug 2011 13:07:52 CEST +02:00], ["description", "Se cras imperdiet conubia mi augue consectetur. Nisi vestibulum. Facilisi accumsan euismod non faucibu eget nunc curabitur nunc a nisi mattis montes purus fau, leo gravida ma erat tor, id bibendum eu elementum curabitur. Ullamcorper odio."], ["locale", "fr"], ["title", "Nibh class. Volutpat ultrices. Nibh placerat digniss. Ultrices venenatis magna."], ["updated_at", Thu, 04 Aug 2011 13:07:52 CEST +02:00]]
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "events_products" ("event_id", "product_id") VALUES (3, 3)[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", Thu, 04 Aug 2011 13:07:52 CEST +02:00], ["file", "default_product_logo.png"], ["image_owner_id", 3], ["image_owner_type", "Product"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:07:52 CEST +02:00]]
+  [1m[36mProduct Load (0.2ms)[0m  [1mSELECT "products".* FROM "products" WHERE "products"."locale" = 'fr' AND "products"."code" = 'test_product4' LIMIT 1[0m
+  [1m[35mEvent Load (0.1ms)[0m  SELECT "events".* FROM "events" WHERE "events"."code" = 'test_event4'
+  [1m[36mEvent Load (0.1ms)[0m  [1mSELECT "events".* FROM "events" WHERE "events"."id" = ? LIMIT 1[0m  [["id", 4]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "images" WHERE "images"."image_owner_id" = 4 AND "images"."image_owner_type" = 'Event'
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "products" ("code", "content", "created_at", "description", "locale", "title", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["code", "test_product4"], ["content", "P mi, tristique convalli dapibus. Et rhoncus. Est dolor tor lectus nullam at tincid ultrices mauris, suscipit rutrum, ultri, tincidunt purus semper lacinia habitasse. Quisque euismod lac. Enim lectus tempus convalli placerat in. Dui purus se montes amet. Nascetur curae; luctus ad mattis donec facilisis tellus erat, praesent. Tempus quisque ultrices tortor feugiat praesent, pellentesque dapibus, vestibulum mus. Suscipit erat egestas. Elit sem inceptos hac fermentum ac. Aliquet ridiculus dis non a, vestibulum sodales justo. Ac lorem, sagittis leo lobortis neque, adipiscing porta malesuada sollicitudin lac in penatibus. Egestas nec aptent cursus malesuada habitant nunc felis al tempor. Tincidunt convalli torquent dolor ma, euismod al feugiat lacus feugiat condimentum blandit euismod elementum nam p dictumst a morbi quam. Venenatis ull ligula vel lorem montes massa diam lorem egestas curae; ligula fringilla. Class arcu magnis urna, facilisi aliquet penatibus duis platea lectus nam. Dapibus ut ridiculus pretium el. Vehicula. Ultri nulla vehicula lectus vehicula."], ["created_at", Thu, 04 Aug 2011 13:07:53 CEST +02:00], ["description", "Justo egestas, mauris. Faucib quisque ultricies, auctor vulputate dapibus molestie litora mollis fames himenaeos risus felis, ull et curabitur nam velit porta. Lectus inceptos class elementum nunc. Accumsan, tortor facilisi ultricies fusce aenean elementum tor at sodales al. Taciti."], ["locale", "fr"], ["title", "Fames volutpat gravida. Vel purus per lectus blandit duis dui."], ["updated_at", Thu, 04 Aug 2011 13:07:53 CEST +02:00]]
+  [1m[35m (0.1ms)[0m  INSERT INTO "events_products" ("event_id", "product_id") VALUES (4, 4)
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", Thu, 04 Aug 2011 13:07:53 CEST +02:00], ["file", "default_product_logo.png"], ["image_owner_id", 4], ["image_owner_type", "Product"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:07:53 CEST +02:00]]
+  [1m[35mProduct Load (0.2ms)[0m  SELECT "products".* FROM "products" WHERE "products"."locale" = 'fr' AND "products"."code" = 'test_product5' LIMIT 1
+  [1m[36mEvent Load (0.1ms)[0m  [1mSELECT "events".* FROM "events" WHERE "events"."code" = 'test_event5'[0m
+  [1m[35mEvent Load (0.1ms)[0m  SELECT "events".* FROM "events" WHERE "events"."id" = ? LIMIT 1  [["id", 5]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "images" WHERE "images"."image_owner_id" = 5 AND "images"."image_owner_type" = 'Event'[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "products" ("code", "content", "created_at", "description", "locale", "title", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)  [["code", "test_product5"], ["content", "Litora vestibulum sociosqu li in. Nisi himenaeos mus auctor maecenas inceptos purus sem primis magna purus nisl suspendisse volutpat quisque accums dapibus nascetur tincidunt auctor et aenean. Inceptos lac mi enim. Vel nisl. Accumsan habitasse eu vehicula faucibus taciti bibendum. P luctus curabitur litora tellus vel volutpat massa eros sem. Consequat, digniss hendrerit vehicula pharetra maecenas faucibu ornare porttitor vivamus mus sollicitudin nec auctor fames curabitur fusce vestibulum eleifend per. Lacus iaculis gravida praesent accumsan platea massa primis penatibus. Nunc tortor aliquam turpis li nulla, tellus leo sociis commodo auctor, ut tortor faucibu. Malesuada. Jus gravida nisi conubia montes. Felis condimentum ornare rutrum ipsum vehicula nec dis mus mattis. Urna nullam parturient mattis, ultricies habitasse semper jus maecenas commodo taciti cubilia. Conubia. Fringilla nullam suscipit. Congue convallis. A. Nam. Placerat turpis magnis, rutrum class lorem aliquam, et ullamcorper li ullamcorper morbi cum, dapibus. Elit dapibus, ad nec taciti, convallis mattis non faucibu consectetur dictumst. Magna aptent."], ["created_at", Thu, 04 Aug 2011 13:07:54 CEST +02:00], ["description", "Pulvinar quis ull convallis nascetur nam torquent elementum lobortis nec. Sapien varius, eget cubilia eget dictum felis elit tortor, phasellus ultrices, cubilia elementum ac ipsum euismod magnis dictum consectetur platea libero. Faucibu porta ullamcorper tincidunt commodo."], ["locale", "fr"], ["title", "Urna mattis sodales praesent ultrices felis."], ["updated_at", Thu, 04 Aug 2011 13:07:54 CEST +02:00]]
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "events_products" ("product_id", "event_id") VALUES (5, 5)[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", Thu, 04 Aug 2011 13:07:54 CEST +02:00], ["file", "default_product_logo.png"], ["image_owner_id", 5], ["image_owner_type", "Product"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:07:54 CEST +02:00]]
+  [1m[36mSQL (45.3ms)[0m  [1mDELETE FROM "users"[0m
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "users" ("address", "birthdate", "city", "country", "created_at", "firstname", "gender", "invitor_id", "is_opt_in", "lastname", "nickname", "role_id", "uid", "updated_at", "zipcode") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["address", "inconnue"], ["birthdate", Thu, 01 Jan 1970], ["city", "inconnu"], ["country", "France"], ["created_at", Thu, 04 Aug 2011 13:07:54 CEST +02:00], ["firstname", "guest"], ["gender", "M."], ["invitor_id", nil], ["is_opt_in", nil], ["lastname", "guest"], ["nickname", "guest"], ["role_id", 1], ["uid", "c2fd3d139d811261c407d41b1043d254"], ["updated_at", Thu, 04 Aug 2011 13:07:54 CEST +02:00], ["zipcode", "inconnu"]]
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."id" = 1 LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", Thu, 04 Aug 2011 13:07:54 CEST +02:00], ["file", "default_user_avatar.png"], ["image_owner_id", 1], ["image_owner_type", "User"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:07:54 CEST +02:00]]
+  [1m[35mRole Load (0.2ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'users' LIMIT 1
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("address", "birthdate", "city", "country", "created_at", "firstname", "gender", "invitor_id", "is_opt_in", "lastname", "nickname", "role_id", "uid", "updated_at", "zipcode") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["address", "inconnue"], ["birthdate", Thu, 01 Jan 1970], ["city", "inconnu"], ["country", "France"], ["created_at", Thu, 04 Aug 2011 13:07:55 CEST +02:00], ["firstname", "Weihan"], ["gender", "M."], ["invitor_id", nil], ["is_opt_in", nil], ["lastname", "Zhang"], ["nickname", "johnson"], ["role_id", 3], ["uid", "1c2d244ac656e6d7663bc9ac41210b36"], ["updated_at", Thu, 04 Aug 2011 13:07:55 CEST +02:00], ["zipcode", "inconnu"]]
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."id" = 3 LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", Thu, 04 Aug 2011 13:07:55 CEST +02:00], ["file", "default_user_avatar.png"], ["image_owner_id", 2], ["image_owner_type", "User"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:07:55 CEST +02:00]]
+  [1m[35mRole Load (0.2ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'users' LIMIT 1
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("address", "birthdate", "city", "country", "created_at", "firstname", "gender", "invitor_id", "is_opt_in", "lastname", "nickname", "role_id", "uid", "updated_at", "zipcode") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["address", "inconnue"], ["birthdate", Thu, 01 Jan 1970], ["city", "inconnu"], ["country", "France"], ["created_at", Thu, 04 Aug 2011 13:07:55 CEST +02:00], ["firstname", "Zhe"], ["gender", "M."], ["invitor_id", nil], ["is_opt_in", nil], ["lastname", "Li"], ["nickname", "mark"], ["role_id", 3], ["uid", "e3e0584f6843f94f13205339cbad1458"], ["updated_at", Thu, 04 Aug 2011 13:07:55 CEST +02:00], ["zipcode", "inconnu"]]
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."id" = 3 LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", Thu, 04 Aug 2011 13:07:55 CEST +02:00], ["file", "default_user_avatar.png"], ["image_owner_id", 3], ["image_owner_type", "User"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:07:55 CEST +02:00]]
+  [1m[35mRole Load (0.2ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'administrators' LIMIT 1
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("address", "birthdate", "city", "country", "created_at", "firstname", "gender", "invitor_id", "is_opt_in", "lastname", "nickname", "role_id", "uid", "updated_at", "zipcode") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["address", "inconnue"], ["birthdate", Thu, 01 Jan 1970], ["city", "inconnue"], ["country", "France"], ["created_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["firstname", "Gilles"], ["gender", "M."], ["invitor_id", nil], ["is_opt_in", nil], ["lastname", "Crofils"], ["nickname", "gilles"], ["role_id", 2], ["uid", "dfbb51ffa5bef3f30f4b43902418fb65"], ["updated_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["zipcode", "inconnu"]]
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."id" = 2 LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["file", "default_user_avatar.png"], ["image_owner_id", 4], ["image_owner_type", "User"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00]]
+  [1m[35mRole Load (0.2ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'administrators' LIMIT 1
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("address", "birthdate", "city", "country", "created_at", "firstname", "gender", "invitor_id", "is_opt_in", "lastname", "nickname", "role_id", "uid", "updated_at", "zipcode") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["address", "inconnue"], ["birthdate", Thu, 01 Jan 1970], ["city", "inconnue"], ["country", "France"], ["created_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["firstname", "Amin"], ["gender", "M."], ["invitor_id", nil], ["is_opt_in", nil], ["lastname", "Rafinejad"], ["nickname", "amin"], ["role_id", 2], ["uid", "c2eff52c65a0ddbbc203df2e54ac6fbf"], ["updated_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["zipcode", "inconnu"]]
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."id" = 2 LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["file", "default_user_avatar.png"], ["image_owner_id", 5], ["image_owner_type", "User"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00]]
+  [1m[35mRorshackAuthentication::Account Load (0.2ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."email" = 'guest@secondbureau.com' LIMIT 1
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."nickname" = 'guest' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT 1 FROM "rorshack_authentication_accounts" WHERE LOWER("rorshack_authentication_accounts"."email") = LOWER('guest@secondbureau.com') LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT 1 FROM "rorshack_authentication_accounts" WHERE LOWER("rorshack_authentication_accounts"."email") = LOWER('guest@secondbureau.com') LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT 1 FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."persistence_token" = '9b4f5a533a44a7254824c487edbd2237525e03cb418636d5a257ce1cb416c0f46830d6007ce04781e1ca1daa2da839a9f0dd4df7048e2506cd48a1001d694d43' LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "rorshack_authentication_accounts" ("created_at", "crypted_password", "email", "password_salt", "perishable_token", "persistence_token", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["crypted_password", "26f9924c5bd6b389f5ff233c0332e1b7704d7bddcdeb71d7d946fbafb907d73f9477402c87c5725151f8bfe90a6634ef7e593bd9dca855a9e617e777f9a8a27a"], ["email", "guest@secondbureau.com"], ["password_salt", "j1DgsSQgLcs8pwYlEOlw"], ["perishable_token", "hGkCeJpZaLsxRSiz1jA"], ["persistence_token", "9b4f5a533a44a7254824c487edbd2237525e03cb418636d5a257ce1cb416c0f46830d6007ce04781e1ca1daa2da839a9f0dd4df7048e2506cd48a1001d694d43"], ["updated_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["user_id", 1]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  [1m[36mRorshackAuthentication::Account Load (0.1ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."email" = 'johnson@secondbureau.com' LIMIT 1[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."nickname" = 'johnson' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT 1 FROM "rorshack_authentication_accounts" WHERE LOWER("rorshack_authentication_accounts"."email") = LOWER('johnson@secondbureau.com') LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT 1 FROM "rorshack_authentication_accounts" WHERE LOWER("rorshack_authentication_accounts"."email") = LOWER('johnson@secondbureau.com') LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT 1 FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."persistence_token" = '7eb8284a94f3d5be8843c5023421a4894bcee72b86e5ab23c5bde821f9ae7f56d1011f29fdefbd93d823bf239d4a1fe3d7433bb2634d9c38288aaa0ca32f9dad' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "rorshack_authentication_accounts" ("created_at", "crypted_password", "email", "password_salt", "perishable_token", "persistence_token", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["created_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["crypted_password", "a4c48ef488e110a5dc1ba6b8cbbe975b0b8f3ad43c01598fb766a875090481982b05ca0115c72bd1ddee57ce47675770742954e6117bab2688c45f18393f92a8"], ["email", "johnson@secondbureau.com"], ["password_salt", "SCz2GNDSyogFqfAFQy6z"], ["perishable_token", "sgBiRQA8LbFShx0wfhv"], ["persistence_token", "7eb8284a94f3d5be8843c5023421a4894bcee72b86e5ab23c5bde821f9ae7f56d1011f29fdefbd93d823bf239d4a1fe3d7433bb2634d9c38288aaa0ca32f9dad"], ["updated_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["user_id", 2]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 2 LIMIT 1[0m
+  [1m[35mRorshackAuthentication::Account Load (0.2ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."email" = 'mark@secondbureau.com' LIMIT 1
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."nickname" = 'mark' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT 1 FROM "rorshack_authentication_accounts" WHERE LOWER("rorshack_authentication_accounts"."email") = LOWER('mark@secondbureau.com') LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT 1 FROM "rorshack_authentication_accounts" WHERE LOWER("rorshack_authentication_accounts"."email") = LOWER('mark@secondbureau.com') LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT 1 FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."persistence_token" = '9127dcc6901cc3fe703500c7a05219c276b4cd6c5e985d833d33539933dae1a394dbcc2b7606fcc1290e5a651841f115e4ec8a810239a767f573280644ce2bf8' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "rorshack_authentication_accounts" ("created_at", "crypted_password", "email", "password_salt", "perishable_token", "persistence_token", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["crypted_password", "5bb2751947380533b8154e88ef3e0a011a35c7b8d12f874746f93f400fdd3691d317ada4e27ff6847d927b24cfd3cf4cf169c819570af731064504ecd86fffcd"], ["email", "mark@secondbureau.com"], ["password_salt", "daG6D3o0Hz4m4n4mc5wq"], ["perishable_token", "aRUhaecfgXNnSZVWhJ4"], ["persistence_token", "9127dcc6901cc3fe703500c7a05219c276b4cd6c5e985d833d33539933dae1a394dbcc2b7606fcc1290e5a651841f115e4ec8a810239a767f573280644ce2bf8"], ["updated_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["user_id", 3]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 3 LIMIT 1
+  [1m[36mRorshackAuthentication::Account Load (0.2ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."email" = 'gilles@secondbureau.com' LIMIT 1[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."nickname" = 'gilles' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT 1 FROM "rorshack_authentication_accounts" WHERE LOWER("rorshack_authentication_accounts"."email") = LOWER('gilles@secondbureau.com') LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT 1 FROM "rorshack_authentication_accounts" WHERE LOWER("rorshack_authentication_accounts"."email") = LOWER('gilles@secondbureau.com') LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT 1 FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."persistence_token" = 'ed8bcb2a6e0c9c2e965675667161ea7575b84eba63b03382b02571fb2736184deb48899225cfb3020e1b986b2b4ce9e561eb8c8119717beb7528d683150daa52' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "rorshack_authentication_accounts" ("created_at", "crypted_password", "email", "password_salt", "perishable_token", "persistence_token", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["created_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["crypted_password", "8f6d51e4ddf10e4e4ada0c42e6bf294eb8407595b9259aa2915c3bbb147757262a77fe8bb6d5ab9f6649487f081b18791f1277ecdb83863bc5e75e9db4677601"], ["email", "gilles@secondbureau.com"], ["password_salt", "yvAOVXmICVnKH6bK6KEm"], ["perishable_token", "fO17WSQqhesyc3WgUkWl"], ["persistence_token", "ed8bcb2a6e0c9c2e965675667161ea7575b84eba63b03382b02571fb2736184deb48899225cfb3020e1b986b2b4ce9e561eb8c8119717beb7528d683150daa52"], ["updated_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["user_id", 4]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 4 LIMIT 1[0m
+  [1m[35mRorshackAuthentication::Account Load (0.2ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."email" = 'amin@secondbureau.com' LIMIT 1
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."nickname" = 'amin' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT 1 FROM "rorshack_authentication_accounts" WHERE LOWER("rorshack_authentication_accounts"."email") = LOWER('amin@secondbureau.com') LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT 1 FROM "rorshack_authentication_accounts" WHERE LOWER("rorshack_authentication_accounts"."email") = LOWER('amin@secondbureau.com') LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT 1 FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."persistence_token" = '125c187294dd0580cdd5eca89e8eb521ed01ebef117e011b7eafb578eb3d774f29e3ce736245e3e4e23985ba10187432e32a89264acd7ba65fb60548d23b6696' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "rorshack_authentication_accounts" ("created_at", "crypted_password", "email", "password_salt", "perishable_token", "persistence_token", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["crypted_password", "3bdb2bcc0a771e0b59bdce8aad83aff488e5bd57a705bb56133f83e963fa57ff7cb0e75afe60f75ec253e82b908db103bd6404929a268259f93a2b8915a4de2b"], ["email", "amin@secondbureau.com"], ["password_salt", "sAuU348p8Ou499PD1yq"], ["perishable_token", "FyHmKi9cj3o9kjRw1U4N"], ["persistence_token", "125c187294dd0580cdd5eca89e8eb521ed01ebef117e011b7eafb578eb3d774f29e3ce736245e3e4e23985ba10187432e32a89264acd7ba65fb60548d23b6696"], ["updated_at", Thu, 04 Aug 2011 13:07:56 CEST +02:00], ["user_id", 5]]
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 5 LIMIT 1
+
+
+Started GET "/?locale=fr" for 10.15.15.1 at Thu Aug 04 19:09:30 +0800 2011
+  Processing by EventsController#index as HTML
+  Parameters: {"locale"=>"fr"}
+  [1m[36mEvent Load (0.5ms)[0m  [1mSELECT "events".* FROM "events" WHERE (events.id in (select b.id from events b where b.code = events.code and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) AND (events.end_date > '2011-08-04 11:09:30.958779')[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 1 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mRorshackAuthentication::Account Load (0.1ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1
+  [1m[36mImage Load (0.2ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 2 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 3 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 4 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 5 AND "images"."image_owner_type" = 'Event' LIMIT 1
+Rendered events/_event.html.haml (378.5ms)
+Rendered events/index.html.haml within layouts/application (396.4ms)
+  [1m[36mSetting Load (0.2ms)[0m  [1mSELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1[0m
+Rendered site/_header.html.haml (5.4ms)
+Rendered site/_footer.html.haml (0.9ms)
+Completed 200 OK in 445ms (Views: 431.1ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/assets/application.css" for 10.15.15.1 at Thu Aug 04 19:09:31 +0800 2011
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/stylesheets/application.css.scss  (93ms)  (pid 3915)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/stylesheets/reset.css.scss  (20ms)  (pid 3915)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/stylesheets/common.css.scss  (2ms)  (pid 3915)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/stylesheets/layout.css.scss  (59ms)  (pid 3915)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/stylesheets/application.css.scss  (0ms)  (pid 3915)
+Served asset /application.css - 304 Not Modified  (180ms)  (pid 3915)
+
+
+Started GET "/assets/application.js" for 10.15.15.1 at Thu Aug 04 19:09:31 +0800 2011
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/javascripts/application.js  (4ms)  (pid 3915)
+Compiled ~/.gems/gems/jquery-rails-1.0.12/vendor/assets/javascripts/jquery.js  (78ms)  (pid 3915)
+Compiled ~/.gems/gems/jquery-rails-1.0.12/vendor/assets/javascripts/jquery_ujs.js  (0ms)  (pid 3915)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/javascripts/api.js.coffee  (86ms)  (pid 3915)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/javascripts/events.js.coffee  (0ms)  (pid 3915)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/javascripts/pages.js.coffee  (0ms)  (pid 3915)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/javascripts/application.js  (0ms)  (pid 3915)
+Served asset /application.js - 304 Not Modified  (185ms)  (pid 3915)
+
+
+Started GET "/iauth/login?locale=fr" for 10.15.15.1 at Thu Aug 04 19:09:35 +0800 2011
+  Processing by RorshackAuthentication::AccountSessionsController#new as HTML
+  Parameters: {"locale"=>"fr"}
+  [1m[35mRorshackAuthentication::Account Load (0.1ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1[0m
+Rendered vendor/gems/rorshack-authentication/app/views/rorshack_authentication/account_sessions/_form.html.haml (9.5ms)
+Rendered vendor/gems/rorshack-authentication/app/views/rorshack_authentication/account_sessions/new.html.haml within layouts/application (12.4ms)
+  [1m[35mSetting Load (0.2ms)[0m  SELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1
+Rendered site/_header.html.haml (1.0ms)
+Rendered site/_footer.html.haml (0.1ms)
+Completed 200 OK in 145ms (Views: 31.6ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/assets/application.css" for 10.15.15.1 at Thu Aug 04 19:09:35 +0800 2011
+Served asset /application.css - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/assets/application.js" for 10.15.15.1 at Thu Aug 04 19:09:35 +0800 2011
+Served asset /application.js - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started POST "/iauth/account_sessions?locale=fr" for 10.15.15.1 at Thu Aug 04 19:09:39 +0800 2011
+  Processing by RorshackAuthentication::AccountSessionsController#create as HTML
+  Parameters: {"commit"=>"Create Account session", "authenticity_token"=>"PL3clE3r8d+xFkef9hIG9JtLOGznQVD9QafzFfIN/j0=", "utf8"=>"✓", "rorshack_authentication_account_session"=>{"password"=>"[FILTERED]", "email"=>"gilles@secondbureau.com"}, "locale"=>"fr"}
+  [1m[36mRorshackAuthentication::Account Load (0.1ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE ("rorshack_authentication_accounts".email LIKE 'gilles@secondbureau.com') LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  UPDATE "rorshack_authentication_accounts" SET "perishable_token" = 'm4Sd3V35mwHXX9tab4jO', "updated_at" = '2011-08-04 11:09:39.906672' WHERE "rorshack_authentication_accounts"."id" = 4
+Redirected to http://beijing.secondbureau.com:3000/iauth/login?locale=fr
+Completed 302 Found in 102ms
+
+
+Started GET "/iauth/login?locale=fr" for 10.15.15.1 at Thu Aug 04 19:09:40 +0800 2011
+  Processing by RorshackAuthentication::AccountSessionsController#new as HTML
+  Parameters: {"locale"=>"fr"}
+  [1m[36mRorshackAuthentication::Account Load (0.1ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 4 LIMIT 1[0m
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36mRole Load (0.6ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."id" = 2 LIMIT 1[0m
+Redirected to http://beijing.secondbureau.com:3000/?locale=fr
+Completed 302 Found in 259ms
+
+
+Started GET "/?locale=fr" for 10.15.15.1 at Thu Aug 04 19:09:40 +0800 2011
+  Processing by EventsController#index as HTML
+  Parameters: {"locale"=>"fr"}
+  [1m[35mEvent Load (0.4ms)[0m  SELECT "events".* FROM "events" WHERE (events.id in (select b.id from events b where b.code = events.code and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) AND (events.end_date > '2011-08-04 11:09:40.409352')
+  [1m[36mImage Load (0.2ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 1 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mRorshackAuthentication::Account Load (0.4ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 4 LIMIT 1
+  [1m[36mRole Load (0.1ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35mRole Load (0.2ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."id" = 2 LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1 AND (offer_code IS NOT NULL)
+  [1m[36mImage Load (0.2ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 2 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 2[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 2 AND (offer_code IS NOT NULL)
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 3 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 3[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 3 AND (offer_code IS NOT NULL)
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 4 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 4[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 4 AND (offer_code IS NOT NULL)
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 5 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 5[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 5 AND (offer_code IS NOT NULL)
+Rendered events/_event.html.haml (520.3ms)
+Rendered events/index.html.haml within layouts/application (523.3ms)
+  [1m[36mSetting Load (0.2ms)[0m  [1mSELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36mRole Load (0.2ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'administrators' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+Rendered site/_header.html.haml (95.3ms)
+Rendered site/_footer.html.haml (0.1ms)
+Completed 200 OK in 637ms (Views: 630.6ms | ActiveRecord: 5.1ms)
+
+
+Started GET "/assets/application.css" for 10.15.15.1 at Thu Aug 04 19:09:41 +0800 2011
+Served asset /application.css - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/assets/application.js" for 10.15.15.1 at Thu Aug 04 19:09:41 +0800 2011
+Served asset /application.js - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/fr/api/test_event1/dfbb51ffa5bef3f30f4b43902418fb65" for 10.15.15.1 at Thu Aug 04 19:09:50 +0800 2011
+  Processing by ApiController#show as HTML
+  Parameters: {"uid"=>"dfbb51ffa5bef3f30f4b43902418fb65", "ec"=>"test_event1", "locale"=>"fr"}
+  [1m[36m (0.1ms)[0m  [1mSELECT 1 FROM "events" WHERE "events"."code" = 'test_event1' AND (events.end_date > '2011-08-04 11:09:50.204012') LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT 1 FROM "users" WHERE "users"."uid" = 'dfbb51ffa5bef3f30f4b43902418fb65' LIMIT 1
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."uid" = 'dfbb51ffa5bef3f30f4b43902418fb65' LIMIT 1[0m
+  [1m[35mEvent Load (0.2ms)[0m  SELECT "events".* FROM "events" WHERE "events"."code" = 'test_event1' AND (events.id in (select b.id from events b where b.code = events.code and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) AND (events.end_date > '2011-08-04 11:09:50.345498') AND (events.offered_count < events.offer_count) LIMIT 1
+  [1m[36mSetting Load (0.2ms)[0m  [1mSELECT "settings".* FROM "settings" WHERE "settings"."name" = 'invite_unregister_bonus' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1[0m
+  [1m[35mEventTrack Load (0.2ms)[0m  SELECT "event_tracks".* FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1 ORDER BY winned_at DESC LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "event_tracks" ("created_at", "event_id", "offer_code", "points", "updated_at", "user_id", "winned_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Thu, 04 Aug 2011 13:09:50 CEST +02:00], ["event_id", 1], ["offer_code", nil], ["points", nil], ["updated_at", Thu, 04 Aug 2011 13:09:50 CEST +02:00], ["user_id", 4], ["winned_at", nil]]
+  [1m[35m (0.2ms)[0m  UPDATE "event_tracks" SET "points" = 1, "updated_at" = '2011-08-04 11:09:50.535367' WHERE "event_tracks"."id" = 1
+Redirected to http://beijing.secondbureau.com:3000/fr/events/test_event1
+Completed 302 Found in 387ms
+
+
+Started GET "/fr/events/test_event1" for 10.15.15.1 at Thu Aug 04 19:09:50 +0800 2011
+  Processing by EventsController#show as HTML
+  Parameters: {"id"=>"test_event1", "locale"=>"fr"}
+  [1m[36mEvent Load (0.3ms)[0m  [1mSELECT "events".* FROM "events" WHERE "events"."code" = 'test_event1' AND (events.id in (select b.id from events b where b.code = events.code and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) AND (events.end_date > '2011-08-04 11:09:50.723866') LIMIT 1[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 1 AND "images"."image_owner_type" = 'Event' LIMIT 1
+Rendered events/_event.html.haml (146.5ms)
+Rendered events/show.html.haml within layouts/application (157.0ms)
+  [1m[36mSetting Load (0.2ms)[0m  [1mSELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1[0m
+Rendered site/_header.html.haml (1.1ms)
+Rendered site/_footer.html.haml (0.1ms)
+Completed 200 OK in 355ms (Views: 259.2ms | ActiveRecord: 8.7ms)
+
+
+Started GET "/assets/application.css" for 10.15.15.1 at Thu Aug 04 19:09:51 +0800 2011
+Served asset /application.css - 200 OK  (0ms)  (pid 3915)
+
+
+Started GET "/assets/application.js" for 10.15.15.1 at Thu Aug 04 19:09:51 +0800 2011
+Served asset /application.js - 200 OK  (0ms)  (pid 3915)
+
+
+Started GET "/assets/favicon.ico" for 10.15.15.1 at Thu Aug 04 19:09:52 +0800 2011
+Served asset /favicon.ico - 404 Not Found  (5ms)  (pid 3915)
+
+ActionController::RoutingError (No route matches [GET] "/assets/favicon.ico"):
+  
+
+Rendered /home/johnson/.gems/gems/actionpack-3.1.0.rc4/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/assets/favicon.ico" for 10.15.15.1 at Thu Aug 04 19:09:52 +0800 2011
+Served asset /favicon.ico - 404 Not Found  (4ms)  (pid 3915)
+
+ActionController::RoutingError (No route matches [GET] "/assets/favicon.ico"):
+  
+
+Rendered /home/johnson/.gems/gems/actionpack-3.1.0.rc4/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/?locale=fr" for 10.15.15.1 at Thu Aug 04 19:09:58 +0800 2011
+  Processing by EventsController#index as HTML
+  Parameters: {"locale"=>"fr"}
+  [1m[35mEvent Load (0.4ms)[0m  SELECT "events".* FROM "events" WHERE (events.id in (select b.id from events b where b.code = events.code and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) AND (events.end_date > '2011-08-04 11:09:58.190336')
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 1 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mRorshackAuthentication::Account Load (0.1ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 4 LIMIT 1
+  [1m[36mRole Load (0.1ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35mRole Load (0.2ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."id" = 2 LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1[0m
+  [1m[35mEventTrack Load (0.1ms)[0m  SELECT "event_tracks".* FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1 ORDER BY winned_at DESC LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1 AND (offer_code IS NOT NULL)[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 2 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 2
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 2 AND (offer_code IS NOT NULL)[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 3 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 3
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 3 AND (offer_code IS NOT NULL)[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 4 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 4
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 4 AND (offer_code IS NOT NULL)[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 5 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 5
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 5 AND (offer_code IS NOT NULL)[0m
+Rendered events/_event.html.haml (538.3ms)
+Rendered events/index.html.haml within layouts/application (541.5ms)
+  [1m[35mSetting Load (0.2ms)[0m  SELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'administrators' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+Rendered site/_header.html.haml (4.6ms)
+Rendered site/_footer.html.haml (0.1ms)
+Completed 200 OK in 564ms (Views: 557.5ms | ActiveRecord: 5.1ms)
+
+
+Started GET "/assets/application.css" for 10.15.15.1 at Thu Aug 04 19:09:58 +0800 2011
+Served asset /application.css - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/assets/application.js" for 10.15.15.1 at Thu Aug 04 19:09:58 +0800 2011
+Served asset /application.js - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/iauth/signup?locale=fr" for 10.15.15.1 at Thu Aug 04 19:10:03 +0800 2011
+  Processing by RorshackAuthentication::AccountsController#new as HTML
+  Parameters: {"locale"=>"fr"}
+Rendered vendor/gems/rorshack-authentication/app/views/rorshack_authentication/accounts/_form.html.haml (100.4ms)
+Rendered vendor/gems/rorshack-authentication/app/views/rorshack_authentication/accounts/new.html.haml within layouts/application (103.2ms)
+  [1m[35mSetting Load (0.1ms)[0m  SELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1
+Rendered site/_header.html.haml (1.0ms)
+Rendered site/_footer.html.haml (0.1ms)
+Completed 200 OK in 128ms (Views: 123.5ms | ActiveRecord: 0.6ms)
+
+
+Started POST "/iauth/accounts?locale=fr" for 10.15.15.1 at Thu Aug 04 19:10:15 +0800 2011
+  Processing by RorshackAuthentication::AccountsController#create as HTML
+  Parameters: {"commit"=>"Create Account", "account"=>{"password_confirmation"=>"[FILTERED]", "password"=>"[FILTERED]", "email"=>"iiiooo@gadf.com"}, "authenticity_token"=>"P/pC6ljU3LjSefnsm3n+caHcNoowZW3BTw0Ytz1ufZM=", "utf8"=>"✓", "locale"=>"fr"}
+  [1m[36m (0.1ms)[0m  [1mSELECT 1 FROM "rorshack_authentication_accounts" WHERE LOWER("rorshack_authentication_accounts"."email") = LOWER('iiiooo@gadf.com') LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT 1 FROM "rorshack_authentication_accounts" WHERE LOWER("rorshack_authentication_accounts"."email") = LOWER('iiiooo@gadf.com') LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT 1 FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."persistence_token" = '62828e13f5b818c218ebe07aca0b9687f089b476b7201190aaac941ce29eae1e748d62ac1994addee04914e6103dd3f64014b8e8b52dcc784e3cf2a3b5b2a1d9' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "rorshack_authentication_accounts" ("created_at", "crypted_password", "email", "password_salt", "perishable_token", "persistence_token", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?)  [["created_at", Thu, 04 Aug 2011 13:10:15 CEST +02:00], ["crypted_password", "ccdad42bfd891c298cd4640e04c10fb395f0c2064f538e41e2275886810c20d526dbcc0a84fa38f908b3eefe3213d885c9ef3bebbda659f63712ea2a7a2365a3"], ["email", "iiiooo@gadf.com"], ["password_salt", "tSI8uHFNfqCcd0xarXc"], ["perishable_token", "bG4uXVW8M7aa1TbUUlG"], ["persistence_token", "62828e13f5b818c218ebe07aca0b9687f089b476b7201190aaac941ce29eae1e748d62ac1994addee04914e6103dd3f64014b8e8b52dcc784e3cf2a3b5b2a1d9"], ["updated_at", Thu, 04 Aug 2011 13:10:15 CEST +02:00], ["user_id", nil]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("address", "birthdate", "city", "country", "created_at", "firstname", "gender", "invitor_id", "is_opt_in", "lastname", "nickname", "role_id", "uid", "updated_at", "zipcode") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  [["address", nil], ["birthdate", nil], ["city", nil], ["country", "France"], ["created_at", Thu, 04 Aug 2011 13:10:15 CEST +02:00], ["firstname", nil], ["gender", nil], ["invitor_id", nil], ["is_opt_in", nil], ["lastname", nil], ["nickname", nil], ["role_id", nil], ["uid", "2263c09b3fdf9877a4cd928b020aa668"], ["updated_at", Thu, 04 Aug 2011 13:10:15 CEST +02:00], ["zipcode", nil]]
+  [1m[36mRole Load (0.2ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."id" IS NULL LIMIT 1[0m
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."is_default_role" = 't' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mUPDATE "users" SET "role_id" = 3, "updated_at" = '2011-08-04 11:10:15.656511', "created_at" = '2011-08-04 11:10:15.656511', "uid" = '2263c09b3fdf9877a4cd928b020aa668' WHERE "users"."id" = 6[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "images" ("created_at", "file", "image_owner_id", "image_owner_type", "name", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["created_at", Thu, 04 Aug 2011 13:10:15 CEST +02:00], ["file", "default_user_avatar.png"], ["image_owner_id", 6], ["image_owner_type", "User"], ["name", "lipsum"], ["updated_at", Thu, 04 Aug 2011 13:10:15 CEST +02:00]]
+  [1m[36m (0.2ms)[0m  [1mUPDATE "rorshack_authentication_accounts" SET "perishable_token" = 'qFuVHyjGErPJKoQCQJ7q', "user_id" = 6, "updated_at" = '2011-08-04 11:10:15.820359' WHERE "rorshack_authentication_accounts"."id" = 6[0m
+Rendered vendor/gems/rorshack-authentication/app/views/rorshack_authentication/user_notification/registration_notification.html.haml (2.1ms)
+Rendered vendor/gems/rorshack-authentication/app/views/rorshack_authentication/user_notification/registration_notification.text.haml (0.9ms)
+
+Sent mail to iiiooo@gadf.com (264ms)
+Date: Thu, 04 Aug 2011 19:10:16 +0800
+From: set_me_in_settings@example.com
+To: iiiooo@gadf.com
+Message-ID: <4e3a7e185bb7c_f4b3fb6582ee7f09702f@thematrix.mail>
+Subject: translation missing:
+ fr.user_notifications.registration_notification_subject
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_4e3a7e185415d_f4b3fb6582ee7f0967ba";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+
+----==_mimepart_4e3a7e185415d_f4b3fb6582ee7f0967ba
+Date: Thu, 04 Aug 2011 19:10:16 +0800
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-ID: <4e3a7e1858174_f4b3fb6582ee7f0968d1@thematrix.mail>
+
+Adresse E-mail :
+iiiooo@gadf.com
+Mot de passe : Vous =C3=AAtes
+
+
+----==_mimepart_4e3a7e185415d_f4b3fb6582ee7f0967ba
+Date: Thu, 04 Aug 2011 19:10:16 +0800
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-ID: <4e3a7e185a248_f4b3fb6582ee7f0969a4@thematrix.mail>
+
+<p>
+  Voici vos identifiants:
+  <ul>
+    <li>
+      Adresse E-mail :
+      iiiooo@gadf.com
+    </li>
+    <li>
+      Mot de passe : Vous =C3=AAtes
+      =C3=A0 le connaitre
+    </li>
+  </ul>
+</p>
+
+
+----==_mimepart_4e3a7e185415d_f4b3fb6582ee7f0967ba--
+Redirected to http://beijing.secondbureau.com:3000/users/6/edit?locale=fr
+Completed 302 Found in 1478ms
+
+
+Started GET "/users/6/edit?locale=fr" for 10.15.15.1 at Thu Aug 04 19:10:16 +0800 2011
+  Processing by UsersController#edit as HTML
+  Parameters: {"id"=>"6", "locale"=>"fr"}
+  [1m[35mRorshackAuthentication::Account Load (0.1ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 6 LIMIT 1
+  [1m[36mRole Load (0.1ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."id" = 3 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 6 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 6 LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mSELECT 1 FROM "users" WHERE "users"."uid" = 'dfbb51ffa5bef3f30f4b43902418fb65' LIMIT 1[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."uid" = 'dfbb51ffa5bef3f30f4b43902418fb65' LIMIT 1
+  [1m[36mEvent Load (0.3ms)[0m  [1mSELECT "events".* FROM "events" WHERE "events"."code" = 'test_event1' AND (events.id in (select b.id from events b where b.code = events.code and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) AND (events.end_date > '2011-08-04 11:10:17.070139') AND (events.offered_count < events.offer_count) LIMIT 1[0m
+  [1m[35mSetting Load (0.2ms)[0m  SELECT "settings".* FROM "settings" WHERE "settings"."name" = 'invitee_signup_bonus' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1
+  [1m[36mEventTrack Load (0.2ms)[0m  [1mSELECT "event_tracks".* FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1 ORDER BY winned_at DESC LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  UPDATE "event_tracks" SET "points" = 21, "updated_at" = '2011-08-04 11:10:17.108580' WHERE "event_tracks"."id" = 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1 AND (offer_code IS NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  UPDATE "events" SET "updated_at" = '2011-08-04 11:10:17.205852', "offered_count" = 1 WHERE "events"."id" = 1
+  [1m[36m (0.2ms)[0m  [1mUPDATE "event_tracks" SET "offer_code" = 'b477e17b163e11e345449cdf161dc8a3', "updated_at" = '2011-08-04 11:10:17.241819' WHERE "event_tracks"."id" = 1[0m
+  [1m[35m (0.2ms)[0m  UPDATE "event_tracks" SET "updated_at" = '2011-08-04 11:10:17.281677', "winned_at" = '2011-08-04 11:10:17.281237' WHERE "event_tracks"."id" = 1
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."uid" = 'dfbb51ffa5bef3f30f4b43902418fb65' LIMIT 1[0m
+  [1m[35mImage Load (0.2ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 6 AND "images"."image_owner_type" = 'User' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mUPDATE "users" SET "invitor_id" = 4, "updated_at" = '2011-08-04 11:10:17.453516' WHERE "users"."id" = 6[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."invitor_id" = 6[0m
+  [1m[35mEventTrack Load (0.1ms)[0m  SELECT "event_tracks".* FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND (offer_code IS NOT NULL) ORDER BY winned_at DESC
+Rendered collection (0.0ms)
+Rendered users/_sidebar.html.haml (8.5ms)
+Rendered users/edit.html.haml within layouts/application (156.5ms)
+  [1m[36mSetting Load (0.2ms)[0m  [1mSELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1[0m
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36mRole Load (0.1ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'administrators' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+Rendered site/_header.html.haml (4.4ms)
+Rendered site/_footer.html.haml (0.1ms)
+Completed 200 OK in 886ms (Views: 167.9ms | ActiveRecord: 5.9ms)
+
+
+Started GET "/assets/application.css" for 10.15.15.1 at Thu Aug 04 19:10:17 +0800 2011
+Served asset /application.css - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/assets/application.js" for 10.15.15.1 at Thu Aug 04 19:10:17 +0800 2011
+Served asset /application.js - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/?locale=fr" for 10.15.15.1 at Thu Aug 04 19:10:42 +0800 2011
+  Processing by EventsController#index as HTML
+  Parameters: {"locale"=>"fr"}
+  [1m[36mEvent Load (0.4ms)[0m  [1mSELECT "events".* FROM "events" WHERE (events.id in (select b.id from events b where b.code = events.code and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) AND (events.end_date > '2011-08-04 11:10:42.033928')[0m
+  [1m[35mImage Load (0.2ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 1 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mRorshackAuthentication::Account Load (0.1ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 4 LIMIT 1[0m
+  [1m[35mRole Load (0.2ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36mRole Load (0.2ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."id" = 2 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1
+  [1m[36mEventTrack Load (0.1ms)[0m  [1mSELECT "event_tracks".* FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1 ORDER BY winned_at DESC LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1 AND (offer_code IS NOT NULL)
+  [1m[36mEventTrack Load (0.1ms)[0m  [1mSELECT "event_tracks".* FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1 AND (offer_code IS NOT NULL) ORDER BY winned_at DESC LIMIT 1[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 2 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 2
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 2 AND (offer_code IS NOT NULL)[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 3 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 3
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 3 AND (offer_code IS NOT NULL)[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 4 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 4
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 4 AND (offer_code IS NOT NULL)[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 5 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 5
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 5 AND (offer_code IS NOT NULL)[0m
+Rendered events/_event.html.haml (613.2ms)
+Rendered events/index.html.haml within layouts/application (616.3ms)
+  [1m[35mSetting Load (0.6ms)[0m  SELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'administrators' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+Rendered site/_header.html.haml (5.3ms)
+Rendered site/_footer.html.haml (0.1ms)
+Completed 200 OK in 744ms (Views: 737.1ms | ActiveRecord: 5.8ms)
+
+
+Started GET "/assets/application.css" for 10.15.15.1 at Thu Aug 04 19:10:42 +0800 2011
+Served asset /application.css - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/assets/application.js" for 10.15.15.1 at Thu Aug 04 19:10:42 +0800 2011
+Served asset /application.js - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started PUT "/users/6?locale=fr" for 10.15.15.1 at Thu Aug 04 19:10:55 +0800 2011
+  Processing by UsersController#update as HTML
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"P/pC6ljU3LjSefnsm3n+caHcNoowZW3BTw0Ytz1ufZM=", "utf8"=>"✓", "id"=>"6", "locale"=>"fr", "user"=>{"city"=>"adf", "address"=>"sdfas", "avatar_attributes"=>{"name"=>"lipsum", "id"=>"16", "file"=>#<ActionDispatch::Http::UploadedFile:0x7f6c84cc8510 @content_type="image/png", @original_filename="Capture d’écran 2011-05-18 à 19.05.23.png", @tempfile=#<File:/tmp/RackMultipart20110804-3915-1ms8d5a-0>, @headers="Content-Disposition: form-data; name=\"user[avatar_attributes][file]\"; filename=\"Capture d’écran 2011-05-18 à 19.05.23.png\"\r\nContent-Type: image/png\r\n">}, "country"=>"AF", "birthdate(1i)"=>"1932", "zipcode"=>"sdf", "birthdate(2i)"=>"1", "nickname"=>"sdfs", "birthdate(3i)"=>"3", "lastname"=>"sdf", "gender"=>"Mme", "firstname"=>"sdf", "is_opt_in"=>"1"}}
+  [1m[35mRorshackAuthentication::Account Load (0.1ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 6 LIMIT 1
+  [1m[36mRole Load (0.1ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35mRole Load (0.2ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."id" = 3 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 6 LIMIT 1[0m
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'administrators' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 6 LIMIT 1[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 6 AND "images"."image_owner_type" = 'User' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mUPDATE "users" SET "firstname" = 'sdf', "zipcode" = 'sdf', "is_opt_in" = 't', "nickname" = 'sdfs', "address" = 'sdfas', "city" = 'adf', "gender" = 'Mme', "country" = 'AF', "birthdate" = '1932-01-03', "lastname" = 'sdf', "updated_at" = '2011-08-04 11:10:56.398639' WHERE "users"."id" = 6[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."id" = ? LIMIT 1  [["id", 16]]
+  [1m[36m (0.1ms)[0m  [1mUPDATE "images" SET "file" = 'Capture_d__cran_2011-05-18___19.05.23.png', "updated_at" = '2011-08-04 11:10:56.402552' WHERE "images"."id" = 16[0m
+Redirected to http://beijing.secondbureau.com:3000/users/6?locale=fr
+Completed 302 Found in 728ms
+
+
+Started GET "/users/6?locale=fr" for 10.15.15.1 at Thu Aug 04 19:10:56 +0800 2011
+  Processing by UsersController#show as HTML
+  Parameters: {"id"=>"6", "locale"=>"fr"}
+  [1m[35mRorshackAuthentication::Account Load (0.1ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 6 LIMIT 1
+  [1m[36mRole Load (0.1ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35mRole Load (0.3ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."id" = 3 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 6 LIMIT 1[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 4 LIMIT 1
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."invitor_id" = 6[0m
+  [1m[35mEventTrack Load (0.2ms)[0m  SELECT "event_tracks".* FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND (offer_code IS NOT NULL) ORDER BY winned_at DESC
+Rendered collection (0.0ms)
+Rendered users/_sidebar.html.haml (124.5ms)
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 6 AND "images"."image_owner_type" = 'User' LIMIT 1[0m
+Rendered users/show.html.haml within layouts/application (157.0ms)
+  [1m[35mSetting Load (0.2ms)[0m  SELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'administrators' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+Rendered site/_header.html.haml (109.1ms)
+Rendered site/_footer.html.haml (0.1ms)
+Completed 200 OK in 450ms (Views: 280.3ms | ActiveRecord: 3.0ms)
+
+
+Started GET "/assets/application.css" for 10.15.15.1 at Thu Aug 04 19:10:57 +0800 2011
+Served asset /application.css - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/assets/application.js" for 10.15.15.1 at Thu Aug 04 19:10:57 +0800 2011
+Served asset /application.js - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/?locale=fr" for 10.15.15.1 at Thu Aug 04 19:11:00 +0800 2011
+  Processing by EventsController#index as HTML
+  Parameters: {"locale"=>"fr"}
+  [1m[35mEvent Load (0.4ms)[0m  SELECT "events".* FROM "events" WHERE (events.id in (select b.id from events b where b.code = events.code and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) AND (events.end_date > '2011-08-04 11:11:00.848907')
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 1 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mRorshackAuthentication::Account Load (0.1ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 6 LIMIT 1
+  [1m[36mRole Load (0.1ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35mRole Load (0.2ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."id" = 3 LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND "event_tracks"."event_id" = 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND "event_tracks"."event_id" = 1 AND (offer_code IS NOT NULL)
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 2 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND "event_tracks"."event_id" = 2[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND "event_tracks"."event_id" = 2 AND (offer_code IS NOT NULL)
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 3 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND "event_tracks"."event_id" = 3[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND "event_tracks"."event_id" = 3 AND (offer_code IS NOT NULL)
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 4 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND "event_tracks"."event_id" = 4[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND "event_tracks"."event_id" = 4 AND (offer_code IS NOT NULL)
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 5 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND "event_tracks"."event_id" = 5[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND "event_tracks"."event_id" = 5 AND (offer_code IS NOT NULL)
+Rendered events/_event.html.haml (610.0ms)
+Rendered events/index.html.haml within layouts/application (613.0ms)
+  [1m[36mSetting Load (0.2ms)[0m  [1mSELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36mRole Load (0.2ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'administrators' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+Rendered site/_header.html.haml (4.9ms)
+Rendered site/_footer.html.haml (0.1ms)
+Completed 200 OK in 744ms (Views: 734.0ms | ActiveRecord: 8.6ms)
+
+
+Started GET "/assets/application.css" for 10.15.15.1 at Thu Aug 04 19:11:01 +0800 2011
+Served asset /application.css - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/assets/application.js" for 10.15.15.1 at Thu Aug 04 19:11:01 +0800 2011
+Served asset /application.js - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/fr/api/test_event2/dfbb51ffa5bef3f30f4b43902418fb65" for 10.15.15.1 at Thu Aug 04 19:11:22 +0800 2011
+  Processing by ApiController#show as HTML
+  Parameters: {"uid"=>"dfbb51ffa5bef3f30f4b43902418fb65", "ec"=>"test_event2", "locale"=>"fr"}
+  [1m[36m (0.1ms)[0m  [1mSELECT 1 FROM "events" WHERE "events"."code" = 'test_event2' AND (events.end_date > '2011-08-04 11:11:22.773333') LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT 1 FROM "users" WHERE "users"."uid" = 'dfbb51ffa5bef3f30f4b43902418fb65' LIMIT 1
+  [1m[36mRorshackAuthentication::Account Load (0.1ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 6 LIMIT 1[0m
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36mRole Load (0.2ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."id" = 3 LIMIT 1[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."uid" = 'dfbb51ffa5bef3f30f4b43902418fb65' LIMIT 1
+  [1m[36mEvent Load (0.3ms)[0m  [1mSELECT "events".* FROM "events" WHERE "events"."code" = 'test_event2' AND (events.id in (select b.id from events b where b.code = events.code and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) AND (events.end_date > '2011-08-04 11:11:23.111648') AND (events.offered_count < events.offer_count) LIMIT 1[0m
+  [1m[35mSetting Load (0.3ms)[0m  SELECT "settings".* FROM "settings" WHERE "settings"."name" = 'invite_registered_bonus' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1
+  [1m[36mEventTrack Load (0.2ms)[0m  [1mSELECT "event_tracks".* FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 2 ORDER BY winned_at DESC LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "event_tracks" ("created_at", "event_id", "offer_code", "points", "updated_at", "user_id", "winned_at") VALUES (?, ?, ?, ?, ?, ?, ?)  [["created_at", Thu, 04 Aug 2011 13:11:23 CEST +02:00], ["event_id", 2], ["offer_code", nil], ["points", nil], ["updated_at", Thu, 04 Aug 2011 13:11:23 CEST +02:00], ["user_id", 4], ["winned_at", nil]]
+  [1m[36m (0.2ms)[0m  [1mUPDATE "event_tracks" SET "updated_at" = '2011-08-04 11:11:23.222274', "points" = 2 WHERE "event_tracks"."id" = 2[0m
+Redirected to http://beijing.secondbureau.com:3000/fr/events/test_event2
+Completed 302 Found in 503ms
+
+
+Started GET "/fr/events/test_event2" for 10.15.15.1 at Thu Aug 04 19:11:23 +0800 2011
+  Processing by EventsController#show as HTML
+  Parameters: {"id"=>"test_event2", "locale"=>"fr"}
+  [1m[35mEvent Load (0.3ms)[0m  SELECT "events".* FROM "events" WHERE "events"."code" = 'test_event2' AND (events.id in (select b.id from events b where b.code = events.code and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) AND (events.end_date > '2011-08-04 11:11:23.471599') LIMIT 1
+  [1m[36mImage Load (0.2ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 2 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mRorshackAuthentication::Account Load (0.1ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 6 LIMIT 1
+  [1m[36mRole Load (0.1ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35mRole Load (0.2ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."id" = 3 LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND "event_tracks"."event_id" = 2[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND "event_tracks"."event_id" = 2 AND (offer_code IS NOT NULL)
+Rendered events/_event.html.haml (567.8ms)
+Rendered events/show.html.haml within layouts/application (578.1ms)
+  [1m[36mSetting Load (0.2ms)[0m  [1mSELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36mRole Load (0.2ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'administrators' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+Rendered site/_header.html.haml (4.8ms)
+Rendered site/_footer.html.haml (0.1ms)
+Completed 200 OK in 603ms (Views: 597.1ms | ActiveRecord: 3.4ms)
+
+
+Started GET "/assets/application.css" for 10.15.15.1 at Thu Aug 04 19:11:24 +0800 2011
+Served asset /application.css - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/assets/application.js" for 10.15.15.1 at Thu Aug 04 19:11:24 +0800 2011
+Served asset /application.js - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/?locale=fr" for 10.15.15.1 at Thu Aug 04 19:11:30 +0800 2011
+  Processing by EventsController#index as HTML
+  Parameters: {"locale"=>"fr"}
+  [1m[36mEvent Load (0.4ms)[0m  [1mSELECT "events".* FROM "events" WHERE (events.id in (select b.id from events b where b.code = events.code and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) AND (events.end_date > '2011-08-04 11:11:30.726333')[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 1 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mRorshackAuthentication::Account Load (0.1ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 4 LIMIT 1[0m
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36mRole Load (0.2ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."id" = 2 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1
+  [1m[36mEventTrack Load (0.1ms)[0m  [1mSELECT "event_tracks".* FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1 ORDER BY winned_at DESC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1 AND (offer_code IS NOT NULL)
+  [1m[36mEventTrack Load (0.1ms)[0m  [1mSELECT "event_tracks".* FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1 AND (offer_code IS NOT NULL) ORDER BY winned_at DESC LIMIT 1[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 2 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 2
+  [1m[36mEventTrack Load (0.1ms)[0m  [1mSELECT "event_tracks".* FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 2 ORDER BY winned_at DESC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 2 AND (offer_code IS NOT NULL)
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 3 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 3[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 3 AND (offer_code IS NOT NULL)
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 4 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 4[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 4 AND (offer_code IS NOT NULL)
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 5 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 5[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 5 AND (offer_code IS NOT NULL)
+Rendered events/_event.html.haml (608.7ms)
+Rendered events/index.html.haml within layouts/application (612.4ms)
+  [1m[36mSetting Load (0.2ms)[0m  [1mSELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36mRole Load (0.8ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'administrators' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+Rendered site/_header.html.haml (111.0ms)
+Rendered site/_footer.html.haml (0.1ms)
+Completed 200 OK in 745ms (Views: 737.3ms | ActiveRecord: 6.2ms)
+
+
+Started GET "/assets/application.css" for 10.15.15.1 at Thu Aug 04 19:11:31 +0800 2011
+Served asset /application.css - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/assets/application.js" for 10.15.15.1 at Thu Aug 04 19:11:31 +0800 2011
+Served asset /application.js - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/fr/api/test_event2/dfbb51ffa5bef3f30f4b43902418fb65" for 10.15.15.1 at Thu Aug 04 19:11:36 +0800 2011
+  Processing by ApiController#show as HTML
+  Parameters: {"uid"=>"dfbb51ffa5bef3f30f4b43902418fb65", "ec"=>"test_event2", "locale"=>"fr"}
+  [1m[36m (0.1ms)[0m  [1mSELECT 1 FROM "events" WHERE "events"."code" = 'test_event2' AND (events.end_date > '2011-08-04 11:11:36.069318') LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT 1 FROM "users" WHERE "users"."uid" = 'dfbb51ffa5bef3f30f4b43902418fb65' LIMIT 1
+  [1m[36mRorshackAuthentication::Account Load (0.1ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 6 LIMIT 1[0m
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36mRole Load (0.2ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."id" = 3 LIMIT 1[0m
+Redirected to http://beijing.secondbureau.com:3000/fr/events/test_event2
+Completed 302 Found in 306ms
+
+
+Started GET "/fr/events/test_event2" for 10.15.15.1 at Thu Aug 04 19:11:36 +0800 2011
+  Processing by EventsController#show as HTML
+  Parameters: {"id"=>"test_event2", "locale"=>"fr"}
+  [1m[35mEvent Load (0.2ms)[0m  SELECT "events".* FROM "events" WHERE "events"."code" = 'test_event2' AND (events.id in (select b.id from events b where b.code = events.code and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) AND (events.end_date > '2011-08-04 11:11:36.509453') LIMIT 1
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 2 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mRorshackAuthentication::Account Load (0.1ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 6 LIMIT 1[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 6 LIMIT 1
+  [1m[36mRole Load (0.3ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35mRole Load (0.2ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."id" = 3 LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND "event_tracks"."event_id" = 2[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 6 AND "event_tracks"."event_id" = 2 AND (offer_code IS NOT NULL)
+Rendered events/_event.html.haml (549.3ms)
+Rendered events/show.html.haml within layouts/application (558.3ms)
+  [1m[36mSetting Load (0.2ms)[0m  [1mSELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36mRole Load (0.2ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'administrators' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+Rendered site/_header.html.haml (5.1ms)
+Rendered site/_footer.html.haml (0.1ms)
+Completed 200 OK in 688ms (Views: 682.3ms | ActiveRecord: 3.4ms)
+
+
+Started GET "/assets/application.css" for 10.15.15.1 at Thu Aug 04 19:11:37 +0800 2011
+Served asset /application.css - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/assets/application.js" for 10.15.15.1 at Thu Aug 04 19:11:37 +0800 2011
+Served asset /application.js - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/?locale=fr" for 10.15.15.1 at Thu Aug 04 19:11:40 +0800 2011
+  Processing by EventsController#index as HTML
+  Parameters: {"locale"=>"fr"}
+  [1m[36mEvent Load (0.3ms)[0m  [1mSELECT "events".* FROM "events" WHERE (events.id in (select b.id from events b where b.code = events.code and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) AND (events.end_date > '2011-08-04 11:11:41.011880')[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 1 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mRorshackAuthentication::Account Load (0.5ms)[0m  [1mSELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "rorshack_authentication_accounts".* FROM "rorshack_authentication_accounts" WHERE "rorshack_authentication_accounts"."id" = 4 LIMIT 1
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 4 LIMIT 1[0m
+  [1m[35mRole Load (0.1ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36mRole Load (0.1ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."id" = 2 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1
+  [1m[36mEventTrack Load (0.2ms)[0m  [1mSELECT "event_tracks".* FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1 ORDER BY winned_at DESC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1 AND (offer_code IS NOT NULL)
+  [1m[36mEventTrack Load (0.1ms)[0m  [1mSELECT "event_tracks".* FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 1 AND (offer_code IS NOT NULL) ORDER BY winned_at DESC LIMIT 1[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 2 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 2
+  [1m[36mEventTrack Load (0.1ms)[0m  [1mSELECT "event_tracks".* FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 2 ORDER BY winned_at DESC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 2 AND (offer_code IS NOT NULL)
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 3 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 3[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 3 AND (offer_code IS NOT NULL)
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 4 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 4[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 4 AND (offer_code IS NOT NULL)
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 5 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 5[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "event_tracks" WHERE "event_tracks"."user_id" = 4 AND "event_tracks"."event_id" = 5 AND (offer_code IS NOT NULL)
+Rendered events/_event.html.haml (617.0ms)
+Rendered events/index.html.haml within layouts/application (722.1ms)
+  [1m[36mSetting Load (0.2ms)[0m  [1mSELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+  [1m[36mRole Load (0.2ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'administrators' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."name" = 'guests' LIMIT 1
+Rendered site/_header.html.haml (5.1ms)
+Rendered site/_footer.html.haml (0.1ms)
+Completed 200 OK in 745ms (Views: 738.7ms | ActiveRecord: 5.6ms)
+
+
+Started GET "/assets/application.css" for 10.15.15.1 at Thu Aug 04 19:11:41 +0800 2011
+Served asset /application.css - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/assets/application.js" for 10.15.15.1 at Thu Aug 04 19:11:41 +0800 2011
+Served asset /application.js - 304 Not Modified  (0ms)  (pid 3915)
+
+
+Started GET "/" for 127.0.0.1 at Mon Aug 22 14:12:35 +0800 2011
+  Processing by EventsController#index as HTML
+  [1m[36mEvent Load (0.4ms)[0m  [1mSELECT "events".* FROM "events" WHERE (events.id in (select b.id from events b where b.code = events.code and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) AND (events.end_date > '2011-08-22 06:12:36.175505')[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 1 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 2 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 3 AND "images"."image_owner_type" = 'Event' LIMIT 1
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 4 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+  [1m[35mImage Load (0.1ms)[0m  SELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 5 AND "images"."image_owner_type" = 'Event' LIMIT 1
+Rendered events/_event.html.haml (448.8ms)
+Rendered events/index.html.haml within layouts/application (468.3ms)
+  [1m[36mSetting Load (0.2ms)[0m  [1mSELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1[0m
+Rendered site/_header.html.haml (5.3ms)
+Rendered site/_footer.html.haml (0.9ms)
+Completed 200 OK in 641ms (Views: 611.4ms | ActiveRecord: 2.3ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at Mon Aug 22 14:12:36 +0800 2011
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/stylesheets/application.css.scss  (10ms)  (pid 15330)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/stylesheets/reset.css.scss  (13ms)  (pid 15330)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/stylesheets/common.css.scss  (3ms)  (pid 15330)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/stylesheets/layout.css.scss  (52ms)  (pid 15330)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/stylesheets/application.css.scss  (0ms)  (pid 15330)
+Served asset /application.css - 200 OK  (84ms)  (pid 15330)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at Mon Aug 22 14:12:36 +0800 2011
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/javascripts/application.js  (12ms)  (pid 15330)
+Compiled /usr/lib/ruby/gems/1.8/gems/jquery-rails-1.0.12/vendor/assets/javascripts/jquery.js  (15ms)  (pid 15330)
+Compiled /usr/lib/ruby/gems/1.8/gems/jquery-rails-1.0.12/vendor/assets/javascripts/jquery_ujs.js  (5ms)  (pid 15330)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/javascripts/api.js.coffee  (125ms)  (pid 15330)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/javascripts/events.js.coffee  (3ms)  (pid 15330)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/javascripts/pages.js.coffee  (3ms)  (pid 15330)
+Compiled ~/Documents/secondbureau/roady-demo/app/assets/javascripts/application.js  (6ms)  (pid 15330)
+Served asset /application.js - 304 Not Modified  (171ms)  (pid 15330)
+
+
+Started GET "/assets/favicon.ico" for 127.0.0.1 at Mon Aug 22 14:12:37 +0800 2011
+Served asset /favicon.ico - 404 Not Found  (5ms)  (pid 15330)
+
+ActionController::RoutingError (No route matches [GET] "/assets/favicon.ico"):
+  
+
+Rendered /home/johnson/.gems/gems/actionpack-3.1.0.rc4/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fr/events/test_event2" for 127.0.0.1 at Mon Aug 22 14:12:56 +0800 2011
+  Processing by EventsController#show as HTML
+  Parameters: {"id"=>"test_event2", "locale"=>"fr"}
+  [1m[35mEvent Load (0.2ms)[0m  SELECT "events".* FROM "events" WHERE "events"."code" = 'test_event2' AND (events.id in (select b.id from events b where b.code = events.code and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) AND (events.end_date > '2011-08-22 06:12:56.322012') LIMIT 1
+  [1m[36mImage Load (0.1ms)[0m  [1mSELECT "images".* FROM "images" WHERE "images"."image_owner_id" = 2 AND "images"."image_owner_type" = 'Event' LIMIT 1[0m
+Rendered events/_event.html.haml (230.4ms)
+Rendered events/show.html.haml within layouts/application (240.1ms)
+  [1m[35mSetting Load (0.2ms)[0m  SELECT "settings".* FROM "settings" WHERE "settings"."name" = 'title' AND (settings.id in (select b.id from settings b where b.name = settings.name and b.locale in ( NULL , 'fr' ) order by case when lower(locale) in (NULL) then 1 when lower(locale) = 'fr' then 2 else 3 end, locale limit 1)) LIMIT 1
+Rendered site/_header.html.haml (1.1ms)
+Rendered site/_footer.html.haml (0.1ms)
+Completed 200 OK in 264ms (Views: 259.5ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at Mon Aug 22 14:12:56 +0800 2011
+Served asset /application.js - 304 Not Modified  (0ms)  (pid 15330)
+
+
+Started GET "/assets/favicon.ico" for 127.0.0.1 at Mon Aug 22 14:12:57 +0800 2011
+Served asset /favicon.ico - 404 Not Found  (5ms)  (pid 15330)
+
+ActionController::RoutingError (No route matches [GET] "/assets/favicon.ico"):
+  
+
+Rendered /home/johnson/.gems/gems/actionpack-3.1.0.rc4/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
