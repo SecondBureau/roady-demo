@@ -17,7 +17,7 @@ Rails.configuration.after_initialize do
       config.s3_access_key_id     = $s3_access_key_id
       config.s3_secret_access_key = $s3_secret_access_key
       config.s3_bucket            = $s3_bucket
-      config.s3_region            = 'ap-southeast-1'
+      config.s3_region            = 'eu-west-1'
       config.s3_access_policy     = :public_read
       config.s3_headers           = {'Cache-Control' => 'max-age=315576000'}
       
